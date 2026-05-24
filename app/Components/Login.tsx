@@ -46,10 +46,10 @@ const Login = () => {
           w-[95%]
           max-w-md
           rounded-3xl
-          border border-purple-500/20
-          bg-white/5
-          backdrop-blur-2xl
-          shadow-[0_0_40px_rgba(168,85,247,0.25)]
+          borderss border-purple-500/20
+          bgss-white/2
+          backdropss-blur-2xl
+          shadowss-[0_0_40px_rgba(168,85,247,0.25)]
           p-8
         "
         >
@@ -103,7 +103,7 @@ const Login = () => {
                 py-4
                 rounded-2xl
                 bg-black/40
-                border border-purple-500/20
+                border border-purple-500/70
                 text-white
                 placeholder:text-gray-500
                 outline-none
@@ -129,7 +129,7 @@ const Login = () => {
                 py-4
                 rounded-2xl
                 bg-black/40
-                border border-purple-500/20
+                border border-purple-500/70
                 text-white
                 placeholder:text-gray-500
                 outline-none

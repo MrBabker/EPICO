@@ -390,7 +390,7 @@ export default function HeaderNav() {
   fixed  inset-0
   h-full
   bg-black/60
-  backdrop-blur-sm
+  backdrop-blur-xs
   z-100
   
 "
