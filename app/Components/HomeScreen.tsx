@@ -134,6 +134,7 @@ export default function HomeScreen() {
           {/* TITLE */}
           <motion.h1
             animate={{
+              opacity : [0,0,1],
               y: isMobile ? 0 : [10, 0],
             }}
             transition={{ duration: 0.7 }}
@@ -205,7 +206,9 @@ export default function HomeScreen() {
               {players.map((p, i) => (
                 <motion.div
                   key={i}
-                  animate={{ opacity: 1 }}
+                  animate={{ opacity: [0,0,1] ,
+                    y:[-10,-10,0]
+                  }}
                   transition={{ delay: i * 0.05 }}
                 >
                   <div className="bg-white/5 border border-purple-500/50 backdrop-blur-md hover:scale-[1.03] transition rounded-3xl">
