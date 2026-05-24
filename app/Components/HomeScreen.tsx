@@ -1,17 +1,29 @@
 "use client";
 
-import { Gamepad2, Trophy, Star, Info, Contact } from "lucide-react";
+import { Trophy, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import { map } from "framer-motion/client";
 import HeaderNav from "./HeaderNav";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
-// 🎮 صور السلايد
+// 🎯 Mobile hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+};
+
+// 🎮 صور السلايدر
 const gamingImages = [
   "/closehappy.png",
   "/happy.png",
@@ -21,22 +33,24 @@ const gamingImages = [
 
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const isMobile = useIsMobile();
 
-  const [menuOpen, setMenuOpen] = useState(false);
   const [index, setIndex] = useState(0);
 
+  // ⚡ particles optimized
   const particles = useMemo(() => {
-    return Array.from({ length: 25 }).map((_, i) => ({
+    const count = isMobile ? 8 : 25;
+
+    return Array.from({ length: count }).map((_, i) => ({
       x: (i * 37) % 100,
       y: (i * 71) % 100,
-
       vx: (i % 2 === 0 ? 1 : -1) * (0.05 + (i % 5) * 0.02),
       vy: (i % 3 === 0 ? 1 : -1) * (0.04 + (i % 4) * 0.02),
-
-      size: 10 + (i % 3),
+      size: isMobile ? 5 : 10 + (i % 3),
     }));
-  }, []);
-  // 🎮 تغيير الصور تلقائيًا
+  }, [isMobile]);
+
+  // 🎮 slider
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % gamingImages.length);
@@ -60,10 +74,10 @@ export default function HomeScreen() {
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
-      {/* 🌈 Background Glow */}
+      {/* 🌈 Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
 
-      {/* ✨ Floating Orbs */}
+      {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
         {particles.map((p, i) => (
           <motion.div
@@ -75,14 +89,18 @@ export default function HomeScreen() {
               left: `${p.x}%`,
               top: `${p.y}%`,
             }}
-            animate={{
-              x: [0, p.vx * 200, 0],
-              y: [0, p.vy * 200, 0],
-              opacity: [0.5, 0.8, 0.5],
-              scale: [1, 1.6, 1],
-            }}
+            animate={
+              isMobile
+                ? { opacity: [0.4, 0.6, 0.4] }
+                : {
+                    x: [0, p.vx * 200, 0],
+                    y: [0, p.vy * 200, 0],
+                    opacity: [0.5, 0.8, 0.5],
+                    scale: [1, 1.6, 1],
+                  }
+            }
             transition={{
-              duration: 6 + (i % 3),
+              duration: isMobile ? 4 : 6,
               repeat: Infinity,
               ease: "linear",
             }}
@@ -90,34 +108,24 @@ export default function HomeScreen() {
         ))}
       </div>
 
-      {/* CONTENT */}
       <div className="relative z-10">
         <HeaderNav />
+
         {/* HERO */}
         <section className="py-16 text-center px-4">
-          {/* 🎮 IMAGE SLIDER */}
-          <div className="flex justify-center mb-10 h-60 items-center ">
+          {/* 🎮 IMAGE */}
+          <div className="flex justify-center mb-10 h-60 items-center">
             <motion.div
-              animate={{
-                y: [0, -12, 0],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              animate={isMobile ? {} : { y: [0, -12, 0] }}
+              transition={isMobile ? {} : { duration: 2, repeat: Infinity }}
             >
               <Image
                 key={index}
-                src={
-                  gamingImages?.length
-                    ? `/myFace${gamingImages[index]}`
-                    : "/myFace/happy.png"
-                }
+                src={`/myFace${gamingImages[index]}`}
                 width={400}
                 height={400}
                 alt="Gaming Avatar"
-                className="backdrop-blur-md w-40 md:w-60 h-40 md:h-60 rounded-full object-cover select-none"
+                className="w-40 md:w-60 h-40 md:h-60 rounded-full object-cover select-none"
                 priority
               />
             </motion.div>
@@ -125,25 +133,27 @@ export default function HomeScreen() {
 
           {/* TITLE */}
           <motion.h1
-            initial={{ opacity: 1, y: -5 }}
-            animate={{ opacity: 1, y: [10, 0] }}
+            animate={{
+              y: isMobile ? 0 : [10, 0],
+            }}
             transition={{ duration: 0.7 }}
             className="text-4xl md:text-6xl font-extrabold tracking-widest text-purple-400"
           >
-           {
-            isLogin ?(<span>WELCOM TO THE EPICO WORLD <span className=" text-white">Mohammed</span></span>):(<>BE ONE OF THE EPICO WORLD</>)
-           }
+            {isLogin ? (
+              <span>
+                WELCOME TO THE EPICO WORLD{" "}
+                <span className="text-white">Mohammed</span>
+              </span>
+            ) : (
+              "BE ONE OF THE EPICO WORLD"
+            )}
           </motion.h1>
 
-          {!isLogin ? (
-            <p className="mt-4 text-gray-400">
-              Compete, earn XP, and rise in my gaming universe.
-            </p>
-          ) : (
-            <p className="mt-4 text-gray-400">
-              Keep earning XP, and riseing in my gaming universe .
-            </p>
-          )}
+          <p className="mt-4 text-gray-400">
+            {isLogin
+              ? "Keep earning XP and rise in my gaming universe."
+              : "Compete, earn XP, and rise in my gaming universe."}
+          </p>
 
           {!isLogin && (
             <div className=" p-5">
@@ -186,20 +196,16 @@ export default function HomeScreen() {
         {/* LEADERBOARD */}
         <section className="w-full flex justify-center">
           <div className="w-full max-w-2xl">
-            <div className=" justify-items-center w-auto">
-              {" "}
-              <div className="flex items-center gap-2 mb-6 text-2xl font-bold text-yellow-400">
-                <Trophy />
-                Top 10 Players
-              </div>
+            <div className="flex items-center gap-2 mb-6 text-2xl font-bold text-yellow-400 justify-center">
+              <Trophy />
+              Top 10 Players
             </div>
 
             <div className="grid gap-3 mx-5">
               {players.map((p, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 1, y: 0 }}
-                  animate={{ opacity: 1, y: [20, 0] }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: i * 0.05 }}
                 >
                   <div className="bg-white/5 border border-purple-500/50 backdrop-blur-md hover:scale-[1.03] transition rounded-3xl">
