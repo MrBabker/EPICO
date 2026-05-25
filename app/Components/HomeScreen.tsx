@@ -23,12 +23,9 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-
-
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
   const isMobile = useIsMobile();
-
 
   // ⚡ particles optimized
   const particles = useMemo(() => {
@@ -42,8 +39,6 @@ export default function HomeScreen() {
       size: isMobile ? 5 : 10 + (i % 3),
     }));
   }, [isMobile]);
-
-
 
   const players = [
     { name: "PlayerOne", xp: 9850 },
@@ -61,9 +56,18 @@ export default function HomeScreen() {
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
       {/* 🌈 Background */}
-      { (
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
+      {isMobile && (
+        <Image
+          src="/img/partt.gif"
+          fill
+          alt="Gaming Avatar"
+          priority
+          className="object-cover select-none  scalse-[10] scale-x-[1.2] opacity-20"
+        />
       )}
+      {
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
+      }
       {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
         {!isMobile &&
@@ -104,15 +108,19 @@ export default function HomeScreen() {
           {/* 🎮 IMAGE */}
           <div className="flex justify-center mb-10 h-60 items-center">
             <motion.div
-              animate={isMobile ? {y: [0, -12, 0] } : { y: [0, -12, 0] }}
-              transition={isMobile ? { duration: 2, repeat: Infinity } : { duration: 2, repeat: Infinity }}
+              animate={isMobile ? { y: [0, -12, 0] } : { y: [0, -12, 0] }}
+              transition={
+                isMobile
+                  ? { duration: 2, repeat: Infinity }
+                  : { duration: 2, repeat: Infinity }
+              }
             >
               <Image
                 src={`/myFace/happy.gif`}
-                width={400}
-                height={400}
+                width={100}
+                height={100}
                 alt="Gaming Avatar"
-                className="w-40 md:w-60 h-40 md:h-60 rounded-full object-cover select-none"
+                className="w-60  md:w-60 h-60 md:h-60 rounded-full object-cover select-none"
                 priority
               />
             </motion.div>
