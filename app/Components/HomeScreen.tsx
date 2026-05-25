@@ -75,7 +75,7 @@ export default function HomeScreen() {
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
       {/* 🌈 Background */}
-      {!isMobile && (
+      { (
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
       )}
       {/* ✨ Particles */}

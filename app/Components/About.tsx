@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Trophy,
@@ -13,7 +13,22 @@ import {
 } from "lucide-react";
 import HeaderNav from "./HeaderNav";
 
+// 🎯 Mobile hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+};
+
 export default function AboutPage() {
+  const isMobile = useIsMobile();
   const cards = [
     {
       icon: Trophy,
@@ -40,8 +55,12 @@ export default function AboutPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white ">
       {/* Background Glow */}
-      <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-purple-600/20 blur-3xl rounded-full" />
-      <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-fuchsia-500/20 blur-3xl rounded-full" />
+      {!isMobile && (
+        <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-purple-600/20 blur-3xl rounded-full" />
+      )}{" "}
+      {!isMobile && (
+        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-fuchsia-500/20 blur-3xl rounded-full" />
+      )}{" "}
       <HeaderNav />
       <div className="relative z-10 max-w-7xl mx-auto py-10">
         {/* Hero */}

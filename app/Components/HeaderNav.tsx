@@ -22,7 +22,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useRouter } from "next/navigation";
 
+
+// 🎯 Mobile hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+};
+
 export default function HeaderNav() {
+    const isMobile = useIsMobile();
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
   const dispatch = useDispatch();
 
@@ -132,7 +148,7 @@ export default function HeaderNav() {
   h-screen w-[320px]
   bg-[#231a39]
   border-l border-purple-500/20
-  backdrop-blur-xl
+  md:backdrop-blur-xl
   z-[1000]
   md:
   flex flex-col 
@@ -263,7 +279,7 @@ export default function HeaderNav() {
       rounded-3xl
       bg-white/5
       border border-purple-500/20
-      backdrop-blur-xl 
+      md:backdrop-blur-xl 
     "
             >
               {/* AVATAR PLACEHOLDER */}
