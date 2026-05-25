@@ -56,7 +56,7 @@ export default function HomeScreen() {
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
       {/* 🌈 Background */}
-      {isMobile && (
+      {/*isMobile && (
         <Image
           src="/img/partt.gif"
           fill
@@ -64,17 +64,17 @@ export default function HomeScreen() {
           priority
           className="object-cover select-none  scalse-[10] scale-x-[1.2] opacity-20"
         />
-      )}
+      )*/}
       {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
       }
       {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
-        {!isMobile &&
+        {true &&
           particles.map((p, i) => (
             <motion.div
               key={i}
-              className="absolute bg-purple-400 rounded-full blur-sm"
+              className="absolute bg-purple-400 rounded-full  md:blur-sm"
               style={{
                 width: p.size,
                 height: p.size,
@@ -83,7 +83,12 @@ export default function HomeScreen() {
               }}
               animate={
                 isMobile
-                  ? { opacity: [0.4, 0.6, 0.4] }
+                  ? {
+                      x: [0, p.vx * 100, 0],
+                      y: [0, p.vy * 100, 0],
+                      opacity: [0.2, 0.5, 0.2],
+                      scale: [1, 1.6, 1],
+                    }
                   : {
                       x: [0, p.vx * 200, 0],
                       y: [0, p.vy * 200, 0],
