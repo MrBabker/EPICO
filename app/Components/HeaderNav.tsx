@@ -349,15 +349,7 @@ export default function HeaderNav() {
             </Link>
           </div>
 
-          <div className="text-white text-right hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:bg-[#05006578] hover:text-purple-300 transition ">
-            <Link
-              className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
-              href="/pages/contact"
-            >
-              Contact
-              <Contact />
-            </Link>
-          </div>
+        
 
           {/*Array.from({ length: 20 }).map((_, i) => (
             <div

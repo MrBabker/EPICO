@@ -118,8 +118,8 @@ export default function HomeScreen() {
           {/* 🎮 IMAGE */}
           <div className="flex justify-center mb-10 h-60 items-center">
             <motion.div
-              animate={isMobile ? {} : { y: [0, -12, 0] }}
-              transition={isMobile ? {} : { duration: 2, repeat: Infinity }}
+              animate={isMobile ? {y: [0, -12, 0] } : { y: [0, -12, 0] }}
+              transition={isMobile ? { duration: 2, repeat: Infinity } : { duration: 2, repeat: Infinity }}
             >
               <Image
                 key={index}
