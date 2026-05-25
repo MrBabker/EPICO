@@ -75,37 +75,39 @@ export default function HomeScreen() {
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
       {/* 🌈 Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
-
+      {!isMobile && (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
+      )}
       {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
-        {particles.map((p, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-purple-400 rounded-full blur-sm"
-            style={{
-              width: p.size,
-              height: p.size,
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-            }}
-            animate={
-              isMobile
-                ? { opacity: [0.4, 0.6, 0.4] }
-                : {
-                    x: [0, p.vx * 200, 0],
-                    y: [0, p.vy * 200, 0],
-                    opacity: [0.5, 0.8, 0.5],
-                    scale: [1, 1.6, 1],
-                  }
-            }
-            transition={{
-              duration: isMobile ? 4 : 6,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        ))}
+        {!isMobile &&
+          particles.map((p, i) => (
+            <motion.div
+              key={i}
+              className="absolute bg-purple-400 rounded-full blur-sm"
+              style={{
+                width: p.size,
+                height: p.size,
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+              }}
+              animate={
+                isMobile
+                  ? { opacity: [0.4, 0.6, 0.4] }
+                  : {
+                      x: [0, p.vx * 200, 0],
+                      y: [0, p.vy * 200, 0],
+                      opacity: [0.5, 0.8, 0.5],
+                      scale: [1, 1.6, 1],
+                    }
+              }
+              transition={{
+                duration: isMobile ? 4 : 6,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
       </div>
 
       <div className="relative z-10">
@@ -134,7 +136,7 @@ export default function HomeScreen() {
           {/* TITLE */}
           <motion.h1
             animate={{
-              opacity : [0,0,1],
+              opacity: [0, 0, 1],
               y: isMobile ? 0 : [10, 0],
             }}
             transition={{ duration: 0.7 }}
@@ -206,9 +208,7 @@ export default function HomeScreen() {
               {players.map((p, i) => (
                 <motion.div
                   key={i}
-                  animate={{ opacity: [0,0,1] ,
-                    y:[-10,-10,0]
-                  }}
+                  animate={{ opacity: [0, 0, 1], y: [-10, -10, 0] }}
                   transition={{ delay: i * 0.05 }}
                 >
                   <div className="bg-white/5 border border-purple-500/50 backdrop-blur-md hover:scale-[1.03] transition rounded-3xl">

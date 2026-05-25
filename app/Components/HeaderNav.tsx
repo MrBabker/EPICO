@@ -48,7 +48,7 @@ export default function HeaderNav() {
               <span className="font-extrabold text-[#ffcb0f]">C</span>
               <span className="font-extrabold text-[#16ffa2]">O</span>
             </div>
-            <div className=" flex flex-row items-center  text-purple-400">
+            <div className=" hidden md:flex flex-row items-center  text-purple-400">
               <SwordsIcon /> Game World
             </div>
           </div>
@@ -390,7 +390,7 @@ export default function HeaderNav() {
   fixed  inset-0
   h-full
   bg-black/60
-  backdrop-blur-xs
+  md:backdrop-blur-xs
   z-100
   
 "
