@@ -23,19 +23,12 @@ const useIsMobile = () => {
   return isMobile;
 };
 
-// 🎮 صور السلايدر
-const gamingImages = [
-  "/closehappy.png",
-  "/happy.png",
-  "/oooo.png",
-  "/openhappy.png",
-];
+
 
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
   const isMobile = useIsMobile();
 
-  const [index, setIndex] = useState(0);
 
   // ⚡ particles optimized
   const particles = useMemo(() => {
@@ -50,14 +43,7 @@ export default function HomeScreen() {
     }));
   }, [isMobile]);
 
-  // 🎮 slider
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % gamingImages.length);
-    }, 3000);
 
-    return () => clearInterval(interval);
-  }, []);
 
   const players = [
     { name: "PlayerOne", xp: 9850 },
@@ -122,8 +108,7 @@ export default function HomeScreen() {
               transition={isMobile ? { duration: 2, repeat: Infinity } : { duration: 2, repeat: Infinity }}
             >
               <Image
-                key={index}
-                src={`/myFace${gamingImages[index]}`}
+                src={`/myFace/happy.gif`}
                 width={400}
                 height={400}
                 alt="Gaming Avatar"
