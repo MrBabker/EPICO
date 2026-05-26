@@ -63,18 +63,7 @@ export default function HomeScreen() {
     GetTopPlayers();
   }, []);
 
-  /*const players = [
-    { name: "PlayerOne", xp: 9850 },
-    { name: "ShadowX", xp: 9200 },
-    { name: "NeoGamer", xp: 8900 },
-    { name: "DarkSoul", xp: 8600 },
-    { name: "PixelKing", xp: 8200 },
-    { name: "CyberPro", xp: 7900 },
-    { name: "AlphaWolf", xp: 7600 },
-    { name: "ZeroLag", xp: 7300 },
-    { name: "StormByte", xp: 7000 },
-    { name: "NightHawk", xp: 6800 },
-  ];*/
+ 
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
