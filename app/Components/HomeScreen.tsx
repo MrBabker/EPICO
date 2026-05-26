@@ -8,6 +8,7 @@ import Image from "next/image";
 import HeaderNav from "./HeaderNav";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { Player } from "../utils";
 
 // 🎯 Mobile hook
 const useIsMobile = () => {
@@ -26,6 +27,7 @@ const useIsMobile = () => {
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
   const isMobile = useIsMobile();
+  const [players, setPlayers] = useState<Player[]>([]);
 
   // ⚡ particles optimized
   const particles = useMemo(() => {
@@ -40,7 +42,28 @@ export default function HomeScreen() {
     }));
   }, [isMobile]);
 
-  const players = [
+  useEffect(() => {
+    const GetTopPlayers = async () => {
+      try {
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_HOST + "/api/Player/top",
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+
+        const data = await res.json();
+
+        setPlayers(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    GetTopPlayers();
+  }, []);
+
+  /*const players = [
     { name: "PlayerOne", xp: 9850 },
     { name: "ShadowX", xp: 9200 },
     { name: "NeoGamer", xp: 8900 },
@@ -51,7 +74,7 @@ export default function HomeScreen() {
     { name: "ZeroLag", xp: 7300 },
     { name: "StormByte", xp: 7000 },
     { name: "NightHawk", xp: 6800 },
-  ];
+  ];*/
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
@@ -220,7 +243,7 @@ export default function HomeScreen() {
 
                       <div className="flex items-center gap-1 font-bold text-green-400">
                         <Star size={16} />
-                        {p.xp} XP
+                        {p.points} EP
                       </div>
                     </div>
                   </div>
