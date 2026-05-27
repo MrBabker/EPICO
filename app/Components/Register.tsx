@@ -9,11 +9,11 @@ import Link from "next/link";
 
 export default function Register() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white ">
+    <section className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white pt-20 ">
       {/* Background Glow */}
       <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] bg-purple-600/30 blur-3xl rounded-full" />
       <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] bg-fuchsia-500/20 blur-3xl rounded-full" />
-      <HeaderNav />{" "}
+     {  /*<HeaderNav />*/}
       <main className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white flex items-center justify-center px-6 py-5">
         {/* Background Glow */}
         <div className="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] bg-purple-600/30 blur-3xl rounded-full" />

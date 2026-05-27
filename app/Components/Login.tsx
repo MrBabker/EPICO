@@ -7,7 +7,7 @@ import HeaderNav from "./HeaderNav";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { isLoginState } from "../features/counter/counterSlice";
+import { isLoginState, SetName } from "../features/counter/counterSlice";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -30,6 +30,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
 
           body: JSON.stringify({
             NameOrEmail,
@@ -49,6 +50,7 @@ const Login = () => {
       console.log(data);
 
       dispatch(isLoginState(true));
+      dispatch(SetName(data.player.name))
 
       setLoadingmess("");
       router.push("/");
@@ -69,13 +71,14 @@ const Login = () => {
         bg-black
         relative
         overflow-hidden
+        pt-0
       "
     >
       {/* BACKGROUND GLOW */}
       <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
 
-      <HeaderNav />
+      {  /*<HeaderNav />*/}
 
       <div
         className="

@@ -26,6 +26,8 @@ const useIsMobile = () => {
 
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const name = useSelector((state: RootState) => state.counter.Name);
+
   const isMobile = useIsMobile();
   const [players, setPlayers] = useState<Player[]>([]);
   const [loadingmess, setLoadingmess] = useState<string>("");
@@ -69,7 +71,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white bg-black">
+    <div className="relative min-h-screen overflow-hidden text-white bg-black pt-15">
       {/* 🌈 Background */}
       {/*isMobile && (
         <Image
@@ -121,7 +123,7 @@ export default function HomeScreen() {
       </div>
 
       <div className="relative z-10">
-        <HeaderNav />
+      {  /*<HeaderNav />*/}
 
         {/* HERO */}
         <section className="py-16 text-center px-4">
@@ -158,7 +160,7 @@ export default function HomeScreen() {
             {isLogin ? (
               <span>
                 WELCOME TO THE EPICO WORLD{" "}
-                <span className="text-white">Mohammed</span>
+                <span className="text-white">{name}</span>
               </span>
             ) : (
               "BE ONE OF THE EPICO WORLD"

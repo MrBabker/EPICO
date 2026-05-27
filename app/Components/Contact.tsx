@@ -21,7 +21,7 @@ export default function Contact() {
       <div className="absolute bottom-[-120px] right-[-120px] w-[300px] h-[300px] bg-fuchsia-500/20 blur-3xl rounded-full" />
 
       <div className=" w-full gap-5 ">
-        <HeaderNav />
+       {  /*<HeaderNav />*/}
        
         {/*Card cover */}
         <div className=" h-full flex  items-center justify-center align-middle justify-items-center mt-5">

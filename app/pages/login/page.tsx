@@ -1,10 +1,14 @@
-import Login from '@/app/Components/Login'
-import React from 'react'
+import HeaderNav from "@/app/Components/HeaderNav";
+import Login from "@/app/Components/Login";
+import React from "react";
 
 const page = () => {
   return (
-    <Login/>
-  )
-}
+    <div>
+      <HeaderNav />
+      <Login />
+    </div>
+  );
+};
 
-export default page
+export default page;

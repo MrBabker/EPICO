@@ -1,10 +1,14 @@
-import Register from '@/app/Components/Register'
-import React from 'react'
+import HeaderNav from "@/app/Components/HeaderNav";
+import Register from "@/app/Components/Register";
+import React from "react";
 
 const page = () => {
   return (
-    <Register/>
-  )
-}
+    <div>
+      <HeaderNav />
+      <Register />
+    </div>
+  );
+};
 
-export default page
+export default page;

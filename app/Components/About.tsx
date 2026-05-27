@@ -53,7 +53,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white ">
+    <main className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white pt-25">
       {/* Background Glow */}
       {!isMobile && (
         <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-purple-600/20 blur-3xl rounded-full" />
@@ -61,7 +61,7 @@ export default function AboutPage() {
       {!isMobile && (
         <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-fuchsia-500/20 blur-3xl rounded-full" />
       )}{" "}
-      <HeaderNav />
+     {  /*<HeaderNav />*/}
       <div className="relative z-10 max-w-7xl mx-auto py-10">
         {/* Hero */}
         <motion.div

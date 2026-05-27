@@ -8,12 +8,12 @@ import HeaderNav from "./HeaderNav";
 
 const LoginOrRegister = () => {
   return (
-    <main className="min-h-screen bg-black relative overflow-hidden">
+    <main className="min-h-screen bg-black relative overflow-hidden pt-0">
       {/* BACKGROUND GLOW */}
       <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
 
-      <HeaderNav />
+     {  /*<HeaderNav />*/}
 
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* CARD */}
