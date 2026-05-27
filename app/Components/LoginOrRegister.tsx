@@ -8,17 +8,17 @@ import HeaderNav from "./HeaderNav";
 
 const LoginOrRegister = () => {
   return (
-    <main className="min-h-screen bg-black relative overflow-hidden pt-0">
+    <main className="min-h-screen bg-black relative overflow-hidden pt-20">
       {/* BACKGROUND GLOW */}
       <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
 
-     {  /*<HeaderNav />*/}
+      {/*<HeaderNav />*/}
 
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* CARD */}
         <motion.div
-         /* initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          /* initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5 }}*/
           className="
@@ -35,50 +35,119 @@ const LoginOrRegister = () => {
           "
         >
           {/* LOGO */}
-          <div className="flex flex-col items-center mb-10">
+          <div className="relative flex flex-col items-center mb-10">
+            {/* Glow */}
             <motion.div
               animate={{
-                rotate: [0, 5, -5, 0],
+                scale: [1, 1.12, 1],
+                opacity: [0.2, 0.4, 0.2],
               }}
               transition={{
                 duration: 4,
                 repeat: Infinity,
               }}
               className="
-                w-24 h-24
-                rounded-3xl
-                bg-gradient-to-r
-                from-purple-500
-                to-pink-500
-                flex items-center justify-center
-                shadow-[0_0_30px_rgba(168,85,247,0.45)]
-              "
+      absolute top-0
+      w-44 h-44
+      rounded-full
+      bg-purple-500/20
+      blur-3xl
+    "
+            />
+
+            {/* Main Logo */}
+            <motion.div
+              animate={{
+                y: [0, -6, 0],
+                rotate: [0, 2, -2, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+              }}
+              className="
+      relative
+      w-24 h-24
+      rounded-[30px]
+      bg-gradient-to-br
+      from-purple-500
+      via-fuchsia-500
+      to-orange-400
+      flex items-center justify-center
+      shadow-[0_0_40px_rgba(168,85,247,0.45)]
+    "
             >
               <Gamepad2 className="text-white w-12 h-12" />
+
+              {/* Rotating Ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="
+        absolute
+        -inset-3
+        rounded-[36px]
+        border border-white/10
+      "
+              />
             </motion.div>
 
             {/* EPICO */}
-            <div className="flex flex-row gap-2 mt-5">
-              <span className="text-4xl font-extrabold text-[#9d64ff]">
-                E
-              </span>
-              <span className="text-4xl font-extrabold text-[#f458ff]">
-                P
-              </span>
-              <span className="text-4xl font-extrabold text-[#ff3f3f]">
-                I
-              </span>
-              <span className="text-4xl font-extrabold text-[#ffcb0f]">
-                C
-              </span>
-              <span className="text-4xl font-extrabold text-[#16ffa2]">
-                O
-              </span>
+            <div className="flex gap-1 mt-6">
+              {[
+                ["E", "#9d64ff"],
+                ["P", "#f458ff"],
+                ["I", "#ff5858"],
+                ["C", "#ffcb0f"],
+                ["O", "#16ffa2"],
+              ].map(([letter, color], i) => (
+                <motion.span
+                  key={letter}
+                  animate={{
+                    y: [0, -4, 0],
+                  }}
+                  transition={{
+                    duration: 1.3,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                  }}
+                  style={{ color }}
+                  className="
+          text-4xl
+          sm:text-5xl
+          font-black
+          tracking-wide
+        "
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </div>
 
-            <p className="text-gray-400 mt-3 text-center">
-              Choose how you want to continue
-            </p>
+            {/* Subtitle */}
+            <motion.p
+              animate={{
+                opacity: [0.4, 1, 0.4],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+              }}
+              className="
+      text-gray-400
+      mt-3
+      text-xs
+      tracking-[0.3em]
+      uppercase
+      text-center
+    "
+            >
+              Enter The Gaming World
+            </motion.p>
           </div>
 
           {/* BUTTONS */}
@@ -120,9 +189,7 @@ const LoginOrRegister = () => {
                   <LogIn className="text-white w-10 h-10" />
                 </div>
 
-                <h2 className="text-white text-2xl font-bold mb-2">
-                  Login
-                </h2>
+                <h2 className="text-white text-2xl font-bold mb-2">Login</h2>
 
                 <p className="text-gray-400 text-center text-sm">
                   Access your account and continue your adventure.
@@ -167,9 +234,7 @@ const LoginOrRegister = () => {
                   <UserPlus className="text-white w-10 h-10" />
                 </div>
 
-                <h2 className="text-white text-2xl font-bold mb-2">
-                  Register
-                </h2>
+                <h2 className="text-white text-2xl font-bold mb-2">Register</h2>
 
                 <p className="text-gray-400 text-center text-sm">
                   Create a new account and join the gaming world.

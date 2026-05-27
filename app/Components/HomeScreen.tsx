@@ -123,7 +123,7 @@ export default function HomeScreen() {
       </div>
 
       <div className="relative z-10">
-      {  /*<HeaderNav />*/}
+        {/*<HeaderNav />*/}
 
         {/* HERO */}
         <section className="py-16 text-center px-4">
@@ -237,18 +237,89 @@ export default function HomeScreen() {
                   animate={{ opacity: [0, 0, 1], y: [-10, -10, 0] }}
                   transition={{ delay: i * 0.05 }}
                 >
-                  <div className="bg-white/5 border border-purple-500/50 md:backdrop-blur-md hover:scale-[1.03] transition rounded-3xl">
-                    <div className="flex items-center justify-between p-4">
-                      <div className="flex items-center gap-3">
-                        <span className="font-bold text-yellow-400">
+                  <div
+                    className={`
+    relative overflow-hidden
+    bg-white/[0.045]
+    border
+    rounded-3xl
+    transition-all duration-300
+    hover:scale-[1.015]
+    active:scale-[0.99]
+
+    ${
+     ( p.name === name && isLogin)
+        ? `
+          border-purple-500/60
+          shadow-[0_0_25px_rgba(168,85,247,0.18)]
+          bg-gradient-to-r
+          from-purple-500/10
+          to-pink-500/10
+        `
+        : `
+          border-white/10
+          hover:border-white/20
+        `
+    }
+  `}
+                  >
+                    {/* Small glow for current player */}
+                    {(p.name === name && isLogin) && (
+                      <div
+                        className="
+        absolute inset-0
+        bg-gradient-to-r
+        from-purple-500/5
+        to-pink-500/5
+        pointer-events-none
+      "
+                      />
+                    )}
+
+                    <div className="relative flex items-center justify-between p-4">
+                      <div className="flex items-center gap-3 min-w-0">
+                        {/* Rank */}
+                        <div
+                          className={`
+          flex items-center justify-center
+          w-8 h-8 rounded-xl
+          text-sm font-bold
+          ${
+            i < 3
+              ? "bg-yellow-400/15 text-yellow-300"
+              : "bg-white/5 text-gray-300"
+          }
+        `}
+                        >
                           #{i + 1}
-                        </span>
-                        <span className="font-bold text-white">{p.name}</span>
+                        </div>
+
+                        {/* Player */}
+                        <div className="min-w-0">
+                          <p
+                            className={`
+            font-bold truncate
+            ${(p.name === name && isLogin) ? "text-white" : "text-gray-200"}
+          `}
+                          >
+                            {p.name}
+                          </p>
+
+                          {(p.name === name && isLogin) && (
+                            <span className="text-[11px] text-purple-300 font-medium">
+                              YOU
+                            </span>
+                          )}
+                        </div>
                       </div>
 
-                      <div className="flex items-center gap-1 font-bold text-green-400">
-                        <Star size={16} />
-                        {p.points} EP
+                      {/* Points */}
+                      <div className="flex items-center gap-1 font-bold text-green-400 shrink-0">
+                        <Star size={15} />
+                        <span>{p.points}</span>
+                        <span className="hidden sm:inline text-green-300/70">
+                          EP
+                        </span>
                       </div>
                     </div>
                   </div>

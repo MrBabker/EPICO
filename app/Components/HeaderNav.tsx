@@ -12,21 +12,27 @@ import {
   SwordsIcon,
   HomeIcon,
   LoaderCircle,
+  Crown,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import { map } from "framer-motion/client";
+import { em, map } from "framer-motion/client";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useRouter } from "next/navigation";
 import {
   isLoginState,
+  SetEmail,
   SetInitialEnter,
+  SetLevel,
   SetName,
+  SetPoints,
+  SetUsername,
 } from "../features/counter/counterSlice";
+import { getRankByPoints, ranks } from "../utils";
 
 // 🎯 Mobile hook
 const useIsMobile = () => {
@@ -49,12 +55,15 @@ export default function HeaderNav() {
     (state: RootState) => state.counter.initialEnter,
   );
   const name = useSelector((state: RootState) => state.counter.Name);
+  const email = useSelector((state: RootState) => state.counter.Email);
+  const points = useSelector((state: RootState) => state.counter.Points);
 
   const dispatch = useDispatch();
 
   const router = useRouter();
   const [initialLoad, setInitialLoad] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openRanks, setOpenRanks] = useState(false);
   const [loadingmess, setLoadingmess] = useState<string>("");
 
   useEffect(() => {
@@ -86,6 +95,10 @@ export default function HeaderNav() {
         const data = await res.json();
 
         dispatch(SetName(data.name));
+        dispatch(SetEmail(data.email));
+        dispatch(SetUsername(data.username));
+        dispatch(SetPoints(data.points));
+        dispatch(SetLevel(data.level));
 
         dispatch(isLoginState(true));
         dispatch(SetInitialEnter(true));
@@ -150,22 +163,133 @@ export default function HeaderNav() {
           {" "}
           {/* LOGO */}
           <Link href={"/"}>
-            <div className="flex items-center gap-2 text-xl font-bold  select-none">
-              <Gamepad2 className=" text-white" />
-              <div className=" flex flex-row gap-2">
-                <span className="  font-extrabold text-[#9d64ff]">E</span>
-                <span className="font-extrabold text-[#f458ff]">P</span>
-                <span className="font-extrabold text-[#ff3f3f]">I</span>
-                <span className="font-extrabold text-[#ffcb0f]">C</span>
-                <span className="font-extrabold text-[#16ffa2]">O</span>
+            <motion.div
+              whileHover={{
+                scale: 1.03,
+              }}
+              className="
+      relative
+      flex
+      items-center
+      gap-4
+      select-none
+      group
+      w-fit
+    "
+            >
+              {/* Glow */}
+              <div
+                className="
+        absolute
+        inset-0
+        bg-purple-500/10
+        blur-2xl
+        opacity-0
+        group-hover:opacity-100
+        transition
+        duration-500
+      "
+              />
+
+              {/* Logo Icon */}
+              <motion.div
+                animate={{
+                  y: [0, -3, 0],
+                  rotate: [0, 2, -2, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                }}
+                className="
+        relative
+        w-12 h-12
+        sm:w-14 sm:h-14
+       rounded-[18px]
+        bg-gradient-to-br
+        from-purple-500
+        via-fuchsia-500
+        to-orange-400
+        flex
+        items-center
+        justify-center
+        shadow-[0_0_25px_rgba(168,85,247,0.35)]
+      "
+              >
+                <Gamepad2 className="text-white w-6 h-6 sm:w-7 sm:h-7" />
+
+                {/* Ring */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="
+          absolute
+          -inset-1
+          rounded-[18px]
+          border border-white/10
+        "
+                />
+              </motion.div>
+
+              {/* Text */}
+              <div className="flex flex-col leading-none">
+                {/* EPICO */}
+                <div className="flex gap-[2px] sm:gap-1">
+                  {[
+                    ["E", "#9d64ff"],
+                    ["P", "#f458ff"],
+                    ["I", "#ff5858"],
+                    ["C", "#ffcb0f"],
+                    ["O", "#16ffa2"],
+                  ].map(([letter, color], i) => (
+                    <motion.span
+                      key={letter}
+                      animate={{
+                        y: [0, -2, 0],
+                      }}
+                      transition={{
+                        duration: 1.3,
+                        repeat: Infinity,
+                        delay: i * 0.1,
+                      }}
+                      style={{ color }}
+                      className="
+              text-2xl
+              sm:text-3xl
+              font-black
+              tracking-wide
+            "
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </div>
+
+                {/* Subtitle */}
+                <div
+                  className="
+          hidden md:flex
+          items-center
+          gap-2
+          text-[10px]
+          uppercase
+          tracking-[0.3em]
+          text-gray-400
+          mt-1
+        "
+                >
+                  <SwordsIcon className="w-3 h-3 text-purple-400" />
+                  Game World
+                </div>
               </div>
-              <div className=" hidden md:flex flex-row items-center  text-purple-400">
-                <SwordsIcon /> Game World
-              </div>
-            </div>
+            </motion.div>
           </Link>
           {/* DESKTOP NAV */}
-          <div className="flex items-center gap-8 ">
+          <div className="flex items-center gap-4 ">
             {/* LOGIN BUTTON */}
             <div className="hidden lg:block">
               {" "}
@@ -218,7 +342,102 @@ export default function HeaderNav() {
                 )}
               </motion.div>
             </div>
+            {isLogin && (
+              <motion.div
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.92 }}
+                animate={{
+                  y: [0, -3, 0],
+                }}
+                transition={{
+                  y: {
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  },
+                  scale: {
+                    duration: 0.15,
+                  },
+                }}
+                onClick={() => setOpenRanks(true)}
+                className="
+    relative
+    cursor-pointer
+    select-none
+  "
+              >
+                {/* Glow */}
+                <div
+                  className="
+      absolute inset-0
+      rounded-full
+      bg-purple-500/25
+      blur-md
+      scale-110
+    "
+                />
 
+                {/* Rotating ring */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="
+      absolute -inset-[3px]
+      rounded-full
+      border border-purple-400/30
+    "
+                />
+
+                {/* Image */}
+                <div
+                  className="
+      relative
+      w-10 h-10 md:w-12 md:h-12
+      rounded-full
+      overflow-hidden
+      border border-white/10
+      bg-[#111]
+      shadow-lg
+    "
+                >
+                  <Image
+                    src={getRankByPoints(points).name.path}
+                    alt="Rank"
+                    width={48}
+                    height={48}
+                    className="
+        w-full h-full
+        object-cover
+      "
+                    priority
+                  />
+                </div>
+
+                {/* Shine */}
+                <motion.div
+                  animate={{
+                    x: [-30, 50],
+                    opacity: [0, 0.5, 0],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    repeatDelay: 1,
+                  }}
+                  className="
+      absolute top-0 left-0
+      w-5 h-full
+      bg-white/20
+      rotate-12
+      blur-sm
+    "
+                />
+              </motion.div>
+            )}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="md: text-purple-400"
@@ -281,6 +500,10 @@ export default function HeaderNav() {
               >
                 {/* AVATAR */}
                 <div
+                  onClick={() => {
+                    setOpenRanks(true);
+                    setMenuOpen(false);
+                  }}
                   className="
         relative
         w-16 h-16 md:w-20 md:h-20
@@ -293,9 +516,9 @@ export default function HeaderNav() {
       "
                 >
                   {/* IMAGE */}
-                  <div className="w-full h-full rounded-full overflow-hidden bg-black">
+                  <div className="w-full h-full rounded-full  bg-black">
                     <Image
-                      src="/vercel.svg"
+                      src={getRankByPoints(points).name.path}
                       alt="Account Avatar"
                       width={100}
                       height={100}
@@ -318,10 +541,10 @@ export default function HeaderNav() {
                 {/* USER INFO */}
                 <div className="flex flex-col text-right">
                   <h2 className="text-white font-bold text-lg leading-none">
-                    EPICO
+                    {name}
                   </h2>
 
-                  <p className="text-sm text-gray-400">epicogamer@gmail.com</p>
+                  <p className="text-sm text-gray-400">{email}</p>
 
                   {/* EXTRA INFO */}
                   <div className="flex items-center gap-2 mt-2">
@@ -334,7 +557,7 @@ export default function HeaderNav() {
             text-xs font-semibold
           "
                     >
-                      LVL 99
+                      {points} EP
                     </div>
 
                     <div
@@ -346,7 +569,7 @@ export default function HeaderNav() {
             text-xs font-semibold
           "
                     >
-                      PRO PLAYER
+                      {getRankByPoints(points).name.en}
                     </div>
                   </div>
                 </div>
@@ -442,6 +665,18 @@ export default function HeaderNav() {
                 About
                 <Info />
               </Link>
+            </div>
+            <div className="text-[#ffc507] font-bold text-right hover:shadow-[0_0_25px_rgba(168,85,247,0.6)]  hover:bg-[#05006578] hover:text-purple-300 transition ">
+              <button
+                className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
+                onClick={() => {
+                  setOpenRanks(true);
+                  setMenuOpen(false);
+                }}
+              >
+                Ranks
+                <Crown />
+              </button>
             </div>
 
             {/*Array.from({ length: 20 }).map((_, i) => (
@@ -727,6 +962,247 @@ export default function HeaderNav() {
           </motion.div>
         )}
       </div>
+      <AnimatePresence>
+        {openRanks && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="
+        fixed inset-0 z-[300]
+        bg-black/80
+        flex items-center justify-center
+        p-3 md:p-6
+      "
+            onClick={() => setOpenRanks(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+              className="
+          w-full max-w-4xl
+          max-h-[90vh]
+          overflow-y-auto
+          rounded-3xl
+          border border-white/10
+          bg-[#111111]
+          shadow-2xl
+        "
+            >
+              {/* HEADER */}
+              <div
+                className="
+            sticky top-0 z-10
+            flex items-center justify-between
+            px-5 py-4
+            border-b border-white/10
+            bg-[#111111]
+          "
+              >
+                <div>
+                  <h2 className="text-white text-xl md:text-2xl font-black">
+                    Rank System
+                  </h2>
+
+                  <p className="text-gray-400 text-sm">
+                    Progress through ranks and become a legend
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setOpenRanks(false)}
+                  className="
+              w-10 h-10 rounded-xl
+              bg-white/5 hover:bg-white/10
+              text-white text-xl
+              transition
+            "
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* CONTENT */}
+              <div
+                className="
+            grid grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-3
+            gap-4
+            p-4 md:p-6
+          "
+              >
+                {ranks.map((rank, i) => {
+                  const isCurrent =
+                    getRankByPoints(points).name.en === rank.name.en;
+
+                  return (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.04 }}
+                      className={`
+                  relative overflow-hidden
+                  rounded-3xl
+                  border
+                  p-4
+                  transition-all duration-300
+
+                  ${
+                    (isCurrent && isLogin)
+                      ? `
+                        border-purple-500/50
+                        bg-gradient-to-br
+                        from-purple-500/10
+                        to-pink-500/10
+                        shadow-[0_0_30px_rgba(168,85,247,0.2)]
+                      `
+                      : `
+                        border-white/10
+                        bg-white/[0.03]
+                        hover:border-purple-500/30
+                      `
+                  }
+                `}
+                    >
+                      {/* CURRENT RANK BADGE */}
+                      {(isCurrent && isLogin) && (
+                        <div
+                          className="
+                      absolute top-3 right-3 z-1
+                      px-3 py-1
+                      rounded-full
+                      bg-gradient-to-r
+                      from-purple-500
+                      to-pink-500
+                      text-white
+                      text-[10px] md:text-xs
+                      font-black
+                      tracking-wide
+                      shadow-lg
+                    "
+                        >
+                          YOU HERE
+                        </div>
+                      )}
+
+                      {/* GLOW */}
+                      <div
+                        className="
+                    absolute inset-0
+                    bg-gradient-to-br
+                    from-purple-500/5
+                    to-pink-500/5
+                    pointer-events-none
+                  "
+                      />
+
+                      {/* IMAGE */}
+                      <div className="relative flex justify-center mb-4">
+                        <motion.div
+                          animate={
+                            (isCurrent && isLogin)
+                              ? {
+                                  y: [0, -4, 0],
+                                }
+                              : {}
+                          }
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                          }}
+                          className="
+                      relative
+                      w-20 h-20 md:w-24 md:h-24
+                      rounded-full
+                    "
+                        >
+                          {/* GLOW */}
+                          {(isCurrent && isLogin) && (
+                            <div
+                              className="
+                          absolute inset-0
+                          rounded-full
+                          bg-purple-500/30
+                          blur-xl
+                          scale-110
+                        "
+                            />
+                          )}
+
+                          <div
+                            className="
+                        relative
+                        w-full h-full
+                        rounded-full
+                        bg-black
+                        border border-white/10
+                        overflow-hidden
+                      "
+                          >
+                            <Image
+                              src={rank.name.path}
+                              alt={rank.name.en}
+                              width={100}
+                              height={100}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </motion.div>
+                      </div>
+
+                      {/* TEXT */}
+                      <div className="relative text-center">
+                        <h3
+                          className={`
+                      font-black text-lg
+                      ${(isCurrent && isLogin) ? "text-white" : "text-gray-200"}
+                    `}
+                        >
+                          {rank.name.en}
+                        </h3>
+
+                        <p
+                          className={`
+                      text-sm font-bold
+                      ${(isCurrent && isLogin) ? "text-pink-300" : "text-purple-300"}
+                    `}
+                        >
+                          {rank.name.ar}
+                        </p>
+
+                        {/* POINTS */}
+                        <div
+                          className="
+                      mt-4
+                      rounded-2xl
+                      bg-black/40
+                      border border-white/5
+                      py-2 px-3
+                    "
+                        >
+                          <p className="text-gray-400 text-xs">
+                            Required Points
+                          </p>
+
+                          <p className="text-green-400 font-bold mt-1">
+                            {rank.min.toLocaleString()} -{" "}
+                            {rank.max.toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

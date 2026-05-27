@@ -7,7 +7,7 @@ import HeaderNav from "./HeaderNav";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { isLoginState, SetName } from "../features/counter/counterSlice";
+import { isLoginState, SetInitialEnter, SetName } from "../features/counter/counterSlice";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -50,7 +50,7 @@ const Login = () => {
       console.log(data);
 
       dispatch(isLoginState(true));
-      dispatch(SetName(data.player.name))
+      dispatch(SetInitialEnter(false));
 
       setLoadingmess("");
       router.push("/");
@@ -71,14 +71,14 @@ const Login = () => {
         bg-black
         relative
         overflow-hidden
-        pt-0
+        pt-20
       "
     >
       {/* BACKGROUND GLOW */}
       <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
       <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
 
-      {  /*<HeaderNav />*/}
+      {/*<HeaderNav />*/}
 
       <div
         className="
@@ -112,39 +112,120 @@ const Login = () => {
         "
         >
           {/* LOGO */}
-          <div className="flex flex-col items-center mb-8">
+          <div className="relative flex flex-col items-center mb-10">
+            {/* Glow */}
             <motion.div
               animate={{
-                rotate: [0, 5, -5, 0],
+                scale: [1, 1.12, 1],
+                opacity: [0.2, 0.4, 0.2],
               }}
               transition={{
                 duration: 4,
                 repeat: Infinity,
               }}
               className="
-              w-20 h-20
-              rounded-2xl
-              bg-gradient-to-r
-              from-purple-500
-              to-pink-500
-              flex items-center justify-center
-              shadow-lg
-            "
+      absolute top-0
+      w-44 h-44
+      rounded-full
+      bg-purple-500/20
+      blur-3xl
+    "
+            />
+
+            {/* Main Logo */}
+            <motion.div
+              animate={{
+                y: [0, -6, 0],
+                rotate: [0, 2, -2, 0],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+              }}
+              className="
+      relative
+      w-24 h-24
+      rounded-[30px]
+      bg-gradient-to-br
+      from-purple-500
+      via-fuchsia-500
+      to-orange-400
+      flex items-center justify-center
+      shadow-[0_0_40px_rgba(168,85,247,0.45)]
+    "
             >
-              <Gamepad2 className="text-white w-10 h-10" />
+              <Gamepad2 className="text-white w-12 h-12" />
+
+              {/* Rotating Ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="
+        absolute
+        -inset-3
+        rounded-[36px]
+        border border-white/10
+      "
+              />
             </motion.div>
 
-            <div className=" flex flex-row gap-2">
-              <span className=" text-3xl font-extrabold text-[#9d64ff]">E</span>
-              <span className="text-3xl font-extrabold text-[#f458ff]">P</span>
-              <span className="text-3xl font-extrabold text-[#ff3f3f]">I</span>
-              <span className="text-3xl font-extrabold text-[#ffcb0f]">C</span>
-              <span className="text-3xl font-extrabold text-[#16ffa2]">O</span>
+            {/* EPICO */}
+            <div className="flex gap-1 mt-6">
+              {[
+                ["E", "#9d64ff"],
+                ["P", "#f458ff"],
+                ["I", "#ff5858"],
+                ["C", "#ffcb0f"],
+                ["O", "#16ffa2"],
+              ].map(([letter, color], i) => (
+                <motion.span
+                  key={letter}
+                  animate={{
+                    y: [0, -4, 0],
+                  }}
+                  transition={{
+                    duration: 1.3,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                  }}
+                  style={{ color }}
+                  className="
+          text-4xl
+          sm:text-5xl
+          font-black
+          tracking-wide
+        "
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </div>
 
-            <p className="text-gray-400 mt-2 text-sm">Enter The Gaming World</p>
+            {/* Subtitle */}
+            <motion.p
+              animate={{
+                opacity: [0.4, 1, 0.4],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+              }}
+              className="
+      text-gray-400
+      mt-3
+      text-xs
+      tracking-[0.3em]
+      uppercase
+      text-center
+    "
+            >
+              Enter The Gaming World
+            </motion.p>
           </div>
-
           {/* FORM */}
           <form className="space-y-5">
             {/* EMAIL */}
