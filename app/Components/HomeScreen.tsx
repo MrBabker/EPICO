@@ -1,6 +1,6 @@
 "use client";
 
-import { Trophy, Star } from "lucide-react";
+import { Trophy, Star, LoaderCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -28,6 +28,7 @@ export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
   const isMobile = useIsMobile();
   const [players, setPlayers] = useState<Player[]>([]);
+  const [loadingmess, setLoadingmess] = useState<string>("");
 
   // ⚡ particles optimized
   const particles = useMemo(() => {
@@ -44,26 +45,28 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const GetTopPlayers = async () => {
+      setLoadingmess("Loading Players...");
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_HOST + "/api/Player/top",
         );
 
         if (!res.ok) {
+          setLoadingmess("Failed to fetch !");
           throw new Error("Failed to fetch");
         }
 
+        setLoadingmess("");
         const data = await res.json();
 
         setPlayers(data);
       } catch (error) {
         console.log(error);
+        setLoadingmess("Something went wrong !!");
       }
     };
     GetTopPlayers();
   }, []);
-
- 
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
@@ -181,7 +184,7 @@ export default function HomeScreen() {
                 }}
                 className="inline-block"
               >
-                <Link href="/pages/login">
+                <Link href="/pages/logorreg">
                   {" "}
                   <motion.div
                     whileHover={{
@@ -214,6 +217,17 @@ export default function HomeScreen() {
               Top 10 Players
             </div>
 
+            {loadingmess.trim().length > 0 && (
+              <div className="flex justify-center mt-8">
+                <div className="flex items-center gap-4 bg-zinc-900/80 border border-zinc-700 px-8 py-5 rounded-3xl shadow-2xl backdrop-blur-md">
+                  <LoaderCircle className="w-8 h-8 text-green-400 animate-spin" />
+
+                  <p className="text-white text-lg font-semibold tracking-wide">
+                    {loadingmess}
+                  </p>
+                </div>
+              </div>
+            )}
             <div className="grid gap-3 mx-5">
               {players.map((p, i) => (
                 <motion.div

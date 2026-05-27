@@ -1,12 +1,67 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, Gamepad2, Section } from "lucide-react";
+import { Mail, Lock, Gamepad2, Section, LoaderCircle } from "lucide-react";
 import HeaderNav from "./HeaderNav";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
+import { isLoginState } from "../features/counter/counterSlice";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+  const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const dispatch = useDispatch();
+
+  const router = useRouter();
+  const [NameOrEmail, SetNameOrEmail] = useState<string>("");
+  const [Password, SetPassword] = useState<string>("");
+  const [loadingmess, setLoadingmess] = useState<string>("");
+
+  const login = async () => {
+    try {
+      setLoadingmess("Checking...");
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HOST}/api/Player/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            NameOrEmail,
+            Password,
+          }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorText = await res.text();
+
+        throw new Error(errorText);
+      }
+
+      const data = await res.json();
+
+      console.log(data);
+
+      dispatch(isLoginState(true));
+
+      setLoadingmess("");
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof Error) {
+        setLoadingmess(error.message);
+      } else {
+        setLoadingmess("Something went wrong !!");
+      }
+    }
+  };
   return (
     <main
       className="
@@ -95,6 +150,10 @@ const Login = () => {
 
               <input
                 type="email"
+                onChange={(e) => {
+                  SetNameOrEmail(e.target.value);
+                  setLoadingmess("");
+                }}
                 placeholder="Email Address"
                 className="
                 w-full
@@ -122,6 +181,10 @@ const Login = () => {
               <input
                 type="password"
                 placeholder="Password"
+                onChange={(e) => {
+                  SetPassword(e.target.value);
+                  setLoadingmess("");
+                }}
                 className="
                 w-full
                 pl-12
@@ -158,14 +221,27 @@ const Login = () => {
               )}
             </div>
 
+            {loadingmess.trim().length > 0 && (
+              <div className="flex justify-center mt-8">
+                <div className="flex items-center gap-4 bg-zinc-900/80 border border-zinc-700 px-8 py-5 rounded-3xl shadow-2xl backdrop-blur-md">
+                  <LoaderCircle className="w-8 h-8 text-green-400 animate-spin" />
+
+                  <p className="text-white text-lg font-semibold tracking-wide">
+                    {loadingmess}
+                  </p>
+                </div>
+              </div>
+            )}
             {/* LOGIN BUTTON */}
-            <motion.button
-              whileHover={{
-                scale: 1.03,
-                boxShadow: "0px 0px 25px rgba(168,85,247,0.45)",
-              }}
-              whileTap={{ scale: 0.98 }}
-              className="
+            {loadingmess.trim().length <= 0 && (
+              <motion.button
+                onClick={() => login()}
+                whileHover={{
+                  scale: 1.03,
+                  boxShadow: "0px 0px 25px rgba(168,85,247,0.45)",
+                }}
+                whileTap={{ scale: 0.98 }}
+                className="
               w-full
               py-4
               rounded-2xl
@@ -178,9 +254,10 @@ const Login = () => {
               tracking-wide
               shadow-lg
             "
-            >
-              LOGIN
-            </motion.button>
+              >
+                LOGIN
+              </motion.button>
+            )}
           </form>
 
           {/* FOOTER */}

@@ -21,7 +21,7 @@ import { map } from "framer-motion/client";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useRouter } from "next/navigation";
-
+import { isLoginState } from "../features/counter/counterSlice";
 
 // 🎯 Mobile hook
 const useIsMobile = () => {
@@ -38,12 +38,42 @@ const useIsMobile = () => {
 };
 
 export default function HeaderNav() {
-    const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
   const dispatch = useDispatch();
 
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const GetCurrentPlayer = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_HOST}/api/Player/current`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials:'include'
+          },
+        );
+
+        if (!res.ok) {
+          dispatch(isLoginState(false));
+          throw new Error("Failed to fetch");
+        }
+
+        const data = await res.json();
+
+        dispatch(isLoginState(true));
+      } catch (error) {
+        console.log(error);
+        dispatch(isLoginState(false));
+      }
+    };
+    GetCurrentPlayer();
+  }, []);
   return (
     <div>
       {/* HEADER */}
@@ -349,8 +379,6 @@ export default function HeaderNav() {
             </Link>
           </div>
 
-        
-
           {/*Array.from({ length: 20 }).map((_, i) => (
             <div
               key={i}
@@ -398,7 +426,7 @@ export default function HeaderNav() {
   fixed  inset-0
   h-full
   bg-black/60
-  md:backdrop-blur-xs
+  md:backdrop-blur-xsss
   z-100
   
 "
