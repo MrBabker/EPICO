@@ -336,27 +336,27 @@ export default function PrivacyPage() {
                 {content.deleteText}
               </p>
 
-              <button
-                onClick={() => {
-                  window.location.href =
-                    "mailto:smilemedo@outlook.com?subject=EPICO Support";
-                }}
+              <a
+                href="mailto:smilemedo@outlook.com?subject=EPICO Support"
                 className="
-                  mt-7
-                  w-full sm:w-auto
-                  px-7 py-4
-                  rounded-2xl
-                  bg-gradient-to-r from-purple-500 to-fuchsia-500
-                  font-bold
-                  text-sm md:text-base
-                  ssshadow-[0_0_40px_rgba(168,85,247,0.45)]
-                  hover:scale-[1.03]
-                  active:scale-95
-                  transition
-                "
+    mt-7
+    inline-flex
+    items-center
+    justify-center
+    w-full sm:w-auto
+    px-7 py-4
+    rounded-2xl
+    bg-gradient-to-r from-purple-500 to-fuchsia-500
+    font-bold
+    text-sm md:text-base
+    shadow-[0_0_40px_rgba(168,85,247,0.45)]
+    hover:scale-[1.03]
+    active:scale-95
+    transition
+  "
               >
                 {content.supportButton}
-              </button>
+              </a>
             </section>
 
             {/* SECURITY */}
