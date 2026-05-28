@@ -84,42 +84,13 @@ export default function Register() {
     }
   };
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#070511] text-white pt-20">
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#09090b] via-[#111827] to-[#140f2a] text-white pt-20">
       {/* BACKGROUND */}
       <div className="absolute inset-0">
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#7c3aed22,transparent_35%),radial-gradient(circle_at_bottom,#d946ef18,transparent_35%)]" />
-
-        {/* Glow 1 */}
-        <motion.div
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-[-120px] left-[-100px] w-[320px] h-[320px] bg-purple-600/20 blur-3xl rounded-full"
-        />
-
-        {/* Glow 2 */}
-        <motion.div
-          animate={{
-            x: [0, -25, 0],
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-[-140px] right-[-100px] w-[340px] h-[340px] bg-fuchsia-500/20 blur-3xl rounded-full"
-        />
-
+       
+       
         {/* Grid */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]" />
+        {/*  <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]" />*/}{" "}
       </div>
 
       {/* CONTENT */}
@@ -146,12 +117,11 @@ export default function Register() {
                 }}
                 className="
                   absolute top-0
-                  w-44 h-44
-                  sm:w-56 sm:h-56
+                  md:w-44 md:h-44
                   lg:w-72 lg:h-72
                   rounded-full
                   bg-purple-500/20
-                  blur-3xl
+                  md:blur-3xl
                 "
               />
 
@@ -177,7 +147,7 @@ export default function Register() {
                   via-fuchsia-500
                   to-orange-400
                   flex items-center justify-center
-                  shadow-[0_0_40px_rgba(168,85,247,0.4)]
+                  md:shadowss-[0_0_40px_rgba(168,85,247,0.4)]
                 "
               >
                 <Gamepad2
@@ -251,14 +221,8 @@ export default function Register() {
               </motion.div>
 
               {/* Subtitle */}
-              <motion.p
-                animate={{
-                  opacity: [0.4, 1, 0.4],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                }}
+              <p
+               
                 className="
                   text-gray-400
                   mt-3 lg:mt-5
@@ -272,21 +236,21 @@ export default function Register() {
                 "
               >
                 Enter The Gaming World
-              </motion.p>
+              </p>
 
               {/* STATS */}
               <div className="hidden lg:flex gap-4 mt-12">
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 ">
                   <h2 className="text-3xl font-bold text-purple-300">25K+</h2>
                   <p className="text-gray-400 text-sm mt-1">Players</p>
                 </div>
 
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 ">
                   <h2 className="text-3xl font-bold text-fuchsia-300">120+</h2>
                   <p className="text-gray-400 text-sm mt-1">Events</p>
                 </div>
 
-                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-xl">
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-5 ">
                   <h2 className="text-3xl font-bold text-cyan-300">99%</h2>
                   <p className="text-gray-400 text-sm mt-1">Competitive</p>
                 </div>
@@ -302,9 +266,9 @@ export default function Register() {
             className="w-full max-w-lg mx-auto"
           >
             {/* CARD */}
-            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.05] backdrop-blur-2xl p-6 sm:p-8 shadow-[0_0_60px_rgba(168,85,247,0.15)]">
+            <div className="relative overflow-hidden rounded-[32px] p-6 sm:p-8 ">
               {/* Card glow */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none" />
+              <div className="absolute inset-0 pointer-events-none" />
 
               {/* Title */}
               <div className="text-center mb-8">
@@ -334,7 +298,7 @@ export default function Register() {
                 placeholder="Enter your email"
                 type="email"
                 setInfo={SetEmails}
-                 setMessage={setLoadingmess}
+                setMessage={setLoadingmess}
               />
 
               {/* Password */}
@@ -344,7 +308,7 @@ export default function Register() {
                 placeholder="Create password"
                 type="password"
                 setInfo={SetPassword}
-                 setMessage={setLoadingmess}
+                setMessage={setLoadingmess}
               />
 
               {/* Confirm Password */}
@@ -354,7 +318,7 @@ export default function Register() {
                 placeholder="Confirm password"
                 type="password"
                 setInfo={SetConfirmPassword}
-                 setMessage={setLoadingmess}
+                setMessage={setLoadingmess}
               />
 
               {/* BUTTON */}
@@ -390,7 +354,7 @@ export default function Register() {
                   to-fuchsia-600
                   font-semibold
                   text-white
-                  shadow-[0_0_25px_rgba(168,85,247,0.35)]
+                  shadowss-[0_0_25px_rgba(168,85,247,0.35)]
                 "
                 >
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition bg-white/10" />
@@ -427,7 +391,7 @@ function InputField({
   placeholder,
   type,
   setInfo,
-  setMessage
+  setMessage,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -444,10 +408,13 @@ function InputField({
       </label>
 
       <div className="group relative">
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500/0 via-purple-500/10 to-fuchsia-500/0 opacity-0 group-focus-within:opacity-100 blur-xl transition duration-300" />
+        <div className="absolute inset-0 rounded-2xl  group-focus-within:opacity-100 blur-xl transition duration-300" />
 
         <input
-          onChange={(e) => {setInfo(e.target.value); setMessage('')}}
+          onChange={(e) => {
+            setInfo(e.target.value);
+            setMessage("");
+          }}
           type={type}
           placeholder={placeholder}
           className="
@@ -458,7 +425,7 @@ function InputField({
             rounded-2xl
             bg-black/30
             border
-            border-white/10
+            border-[#e3b6ff7e]
             text-white
             placeholder:text-gray-500
             outline-none

@@ -8,13 +8,8 @@ import HeaderNav from "./HeaderNav";
 
 const LoginOrRegister = () => {
   return (
-    <main className="min-h-screen bg-black relative overflow-hidden pt-20">
-      {/* BACKGROUND GLOW */}
-      <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
-      <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
-
+    <main className="min-h-screen bg-gradient-to-b from-[#09090b] via-[#111827] to-[#0f172a] relative overflow-hidden pt-20">
       {/*<HeaderNav />*/}
-
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* CARD */}
         <motion.div
@@ -27,31 +22,23 @@ const LoginOrRegister = () => {
             w-full
             max-w-xl
             rounded-3xl
-            border border-purple-500/20
-            bg-white/5
-            backdrop-blur-2xlss
-            shadow-[0_0_40px_rgba(168,85,247,0.25)]
+           
+            bg-white/0
+            md:backdrops-blur-2xlss
+            md:shadowss-[0_0_40px_rgba(168,85,247,0.25)]
             p-8
           "
         >
           {/* LOGO */}
           <div className="relative flex flex-col items-center mb-10">
             {/* Glow */}
-            <motion.div
-              animate={{
-                scale: [1, 1.12, 1],
-                opacity: [0.2, 0.4, 0.2],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-              }}
+            <div
               className="
       absolute top-0
-      w-44 h-44
+      md:sw-44 md:h-s44
       rounded-full
       bg-purple-500/20
-      blur-3xl
+      md:blurs-3xl
     "
             />
 
@@ -74,7 +61,7 @@ const LoginOrRegister = () => {
       via-fuchsia-500
       to-orange-400
       flex items-center justify-center
-      shadow-[0_0_40px_rgba(168,85,247,0.45)]
+      md:shadow-[0_0_40px_rgba(168,85,247,0.45)]
     "
             >
               <Gamepad2 className="text-white w-12 h-12" />
@@ -129,14 +116,7 @@ const LoginOrRegister = () => {
             </div>
 
             {/* Subtitle */}
-            <motion.p
-              animate={{
-                opacity: [0.4, 1, 0.4],
-              }}
-              transition={{
-                duration: 2.5,
-                repeat: Infinity,
-              }}
+            <p
               className="
       text-gray-400
       mt-3
@@ -147,7 +127,7 @@ const LoginOrRegister = () => {
     "
             >
               Enter The Gaming World
-            </motion.p>
+            </p>
           </div>
 
           {/* BUTTONS */}
@@ -171,7 +151,7 @@ const LoginOrRegister = () => {
                   flex flex-col items-center
                   justify-center
                   transition
-                  backdrop-blur-xl
+                  md:ssbackdrop-blur-xl
                 "
               >
                 <div
@@ -183,7 +163,7 @@ const LoginOrRegister = () => {
                     to-pink-500
                     flex items-center justify-center
                     mb-5
-                    shadow-lg
+                    md:ssshadow-lg
                   "
                 >
                   <LogIn className="text-white w-10 h-10" />
@@ -216,7 +196,7 @@ const LoginOrRegister = () => {
                   flex flex-col items-center
                   justify-center
                   transition
-                  backdrop-blur-xl
+                  md:ssbackdrop-blur-xl
                 "
               >
                 <div
@@ -228,7 +208,7 @@ const LoginOrRegister = () => {
                     to-purple-500
                     flex items-center justify-center
                     mb-5
-                    shadow-lg
+                    md:sshadow-lg
                   "
                 >
                   <UserPlus className="text-white w-10 h-10" />

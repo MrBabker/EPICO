@@ -7,7 +7,11 @@ import HeaderNav from "./HeaderNav";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { isLoginState, SetInitialEnter, SetName } from "../features/counter/counterSlice";
+import {
+  isLoginState,
+  SetInitialEnter,
+  SetName,
+} from "../features/counter/counterSlice";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
@@ -74,25 +78,19 @@ const Login = () => {
         pt-20
       "
     >
-      {/* BACKGROUND GLOW */}
-      <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
-      <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
-
+    
       {/*<HeaderNav />*/}
 
       <div
         className="
         min-h-screen
         flex items-center justify-center
-        bg-black
+        bg-gradient-to-b from-[#09090b] via-[#1c1127] to-[#1d001b]
         relative
         overflow-hidden
       "
       >
-        {/* BACKGROUND GLOW */}
-        <div className="absolute w-[500px] h-[500px] bg-purple-600/30 blur-3xl rounded-full top-[-100px] left-[-100px]" />
-        <div className="absolute w-[400px] h-[400px] bg-pink-600/20 blur-3xl rounded-full bottom-[-100px] right-[-100px]" />
-
+      
         {/* CARD */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -106,8 +104,7 @@ const Login = () => {
           rounded-3xl
           borderss border-purple-500/20
           bgss-white/2
-          backdropss-blur-2xl
-          shadowss-[0_0_40px_rgba(168,85,247,0.25)]
+          md:shadowss-[0_0_40px_rgba(168,85,247,0.25)]
           p-8
         "
         >
@@ -124,12 +121,12 @@ const Login = () => {
                 repeat: Infinity,
               }}
               className="
-      absolute top-0
-      w-44 h-44
-      rounded-full
-      bg-purple-500/20
-      blur-3xl
-    "
+              absolute top-0
+              md:w-44 md:h-44
+              rounded-full
+              bg-purple-500/20
+              md:blur-3xl
+            "
             />
 
             {/* Main Logo */}
@@ -143,16 +140,16 @@ const Login = () => {
                 repeat: Infinity,
               }}
               className="
-      relative
-      w-24 h-24
-      rounded-[30px]
-      bg-gradient-to-br
-      from-purple-500
-      via-fuchsia-500
-      to-orange-400
-      flex items-center justify-center
-      shadow-[0_0_40px_rgba(168,85,247,0.45)]
-    "
+              relative
+              w-24 h-24
+              rounded-[30px]
+              bg-gradient-to-br
+              from-purple-500
+              via-fuchsia-500
+              to-orange-400
+              flex items-center justify-center
+              md:shadow-[0_0_40px_rgba(168,85,247,0.45)]
+            "
             >
               <Gamepad2 className="text-white w-12 h-12" />
 
@@ -165,11 +162,11 @@ const Login = () => {
                   ease: "linear",
                 }}
                 className="
-        absolute
-        -inset-3
-        rounded-[36px]
-        border border-white/10
-      "
+                absolute
+                -inset-3
+                rounded-[36px]
+                border border-white/10
+              "
               />
             </motion.div>
 
@@ -194,11 +191,11 @@ const Login = () => {
                   }}
                   style={{ color }}
                   className="
-          text-4xl
-          sm:text-5xl
-          font-black
-          tracking-wide
-        "
+                  text-4xl
+                  sm:text-5xl
+                  font-black
+                  tracking-wide
+                "
                 >
                   {letter}
                 </motion.span>
@@ -215,13 +212,13 @@ const Login = () => {
                 repeat: Infinity,
               }}
               className="
-      text-gray-400
-      mt-3
-      text-xs
-      tracking-[0.3em]
-      uppercase
-      text-center
-    "
+              text-gray-400
+              mt-3
+              text-xs
+              tracking-[0.3em]
+              uppercase
+              text-center
+            "
             >
               Enter The Gaming World
             </motion.p>
@@ -336,7 +333,7 @@ const Login = () => {
               font-bold
               text-lg
               tracking-wide
-              shadow-lg
+              shadows-lg
             "
               >
                 LOGIN

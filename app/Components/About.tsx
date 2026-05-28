@@ -53,14 +53,8 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#0b0717] text-white pt-25">
-      {/* Background Glow */}
-      {!isMobile && (
-        <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-purple-600/20 blur-3xl rounded-full" />
-      )}{" "}
-      {!isMobile && (
-        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-fuchsia-500/20 blur-3xl rounded-full" />
-      )}{" "}
+    <main className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#1a0019] via-[#111827] to-[#0f172a] text-white pt-25">
+    
      {  /*<HeaderNav />*/}
       <div className="relative z-10 max-w-7xl mx-auto py-10">
         {/* Hero */}
@@ -110,7 +104,7 @@ export default function AboutPage() {
                   rounded-3xl
                   border border-purple-500/20
                   bg-white/5
-                  backdrop-blur-xl
+                  ssbackdrop-blur-xl
                   p-7
                 "
               >

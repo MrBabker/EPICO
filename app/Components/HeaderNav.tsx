@@ -213,9 +213,10 @@ export default function HeaderNav() {
         flex
         items-center
         justify-center
-        shadow-[0_0_25px_rgba(168,85,247,0.35)]
+        md:shadows-[0_0_25px_rgba(168,85,247,0.35)]
       "
               >
+                {/*shadow-[0_0_25px_rgba(168,85,247,0.35)]*/}
                 <Gamepad2 className="text-white w-6 h-6 sm:w-7 sm:h-7" />
 
                 {/* Ring */}
@@ -246,16 +247,8 @@ export default function HeaderNav() {
                     ["C", "#ffcb0f"],
                     ["O", "#16ffa2"],
                   ].map(([letter, color], i) => (
-                    <motion.span
+                    <span
                       key={letter}
-                      animate={{
-                        y: [0, -2, 0],
-                      }}
-                      transition={{
-                        duration: 1.3,
-                        repeat: Infinity,
-                        delay: i * 0.1,
-                      }}
                       style={{ color }}
                       className="
               text-2xl
@@ -265,7 +258,7 @@ export default function HeaderNav() {
             "
                     >
                       {letter}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
 
@@ -417,25 +410,7 @@ export default function HeaderNav() {
                   />
                 </div>
 
-                {/* Shine */}
-                <motion.div
-                  animate={{
-                    x: [-30, 50],
-                    opacity: [0, 0.5, 0],
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    repeatDelay: 1,
-                  }}
-                  className="
-      absolute top-0 left-0
-      w-5 h-full
-      bg-white/20
-      rotate-12
-      blur-sm
-    "
-                />
+             
               </motion.div>
             )}
             <button
@@ -460,9 +435,9 @@ export default function HeaderNav() {
           className="
   fixed top-0 right-0
   h-screen w-[320px]
-  bg-[#231a39]
+  bg-gradient-to-b from-[#251743] via-[#111827] to-[#0f172a]
   border-l border-purple-500/20
-  md:backdrop-blur-xl
+  md:sbackdrop-blur-xl
   z-[1000]
   md:
   flex flex-col 
@@ -495,7 +470,7 @@ export default function HeaderNav() {
       rounded-3xl
       bg-white/5
       border border-purple-500/20
-      backdrop-blur-xl
+      ssbackdrop-blur-xl
     "
               >
                 {/* AVATAR */}
@@ -597,7 +572,7 @@ export default function HeaderNav() {
       rounded-3xl
       bg-white/5
       border border-purple-500/20
-      md:backdrop-blur-xl 
+      md:ssbackdrop-blur-xl 
     "
               >
                 {/* AVATAR PLACEHOLDER */}
@@ -738,7 +713,7 @@ export default function HeaderNav() {
   fixed  inset-0
   h-full
   bg-black/60
-  md:backdrop-blur-xsss
+  md:ssbackdrop-blur-xs
   z-100
   
 "
@@ -823,7 +798,7 @@ export default function HeaderNav() {
           via-pink-500
           to-orange-400
           flex items-center justify-center
-          shadow-[0_0_40px_rgba(168,85,247,0.45)]
+          md:shadow-[0_0_40px_rgba(168,85,247,0.45)]
         "
               >
                 <Gamepad2 className="text-white w-12 h-12" />
@@ -965,9 +940,9 @@ export default function HeaderNav() {
       <AnimatePresence>
         {openRanks && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: isMobile ? 1 : 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: isMobile ? 1 : 0 }}
             className="
         fixed inset-0 z-[300]
         bg-black/80
@@ -1053,7 +1028,7 @@ export default function HeaderNav() {
                   transition-all duration-300
 
                   ${
-                    (isCurrent && isLogin)
+                    isCurrent && isLogin
                       ? `
                         border-purple-500/50
                         bg-gradient-to-br
@@ -1070,7 +1045,7 @@ export default function HeaderNav() {
                 `}
                     >
                       {/* CURRENT RANK BADGE */}
-                      {(isCurrent && isLogin) && (
+                      {isCurrent && isLogin && (
                         <div
                           className="
                       absolute top-3 right-3 z-1
@@ -1105,7 +1080,7 @@ export default function HeaderNav() {
                       <div className="relative flex justify-center mb-4">
                         <motion.div
                           animate={
-                            (isCurrent && isLogin)
+                            isCurrent && isLogin
                               ? {
                                   y: [0, -4, 0],
                                 }
@@ -1122,7 +1097,7 @@ export default function HeaderNav() {
                     "
                         >
                           {/* GLOW */}
-                          {(isCurrent && isLogin) && (
+                          {isCurrent && isLogin && (
                             <div
                               className="
                           absolute inset-0
@@ -1160,7 +1135,7 @@ export default function HeaderNav() {
                         <h3
                           className={`
                       font-black text-lg
-                      ${(isCurrent && isLogin) ? "text-white" : "text-gray-200"}
+                      ${isCurrent && isLogin ? "text-white" : "text-gray-200"}
                     `}
                         >
                           {rank.name.en}
@@ -1169,7 +1144,7 @@ export default function HeaderNav() {
                         <p
                           className={`
                       text-sm font-bold
-                      ${(isCurrent && isLogin) ? "text-pink-300" : "text-purple-300"}
+                      ${isCurrent && isLogin ? "text-pink-300" : "text-purple-300"}
                     `}
                         >
                           {rank.name.ar}
