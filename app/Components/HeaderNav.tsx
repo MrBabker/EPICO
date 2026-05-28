@@ -13,6 +13,7 @@ import {
   HomeIcon,
   LoaderCircle,
   Crown,
+  Languages,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
@@ -25,6 +26,7 @@ import { RootState } from "../store";
 import { useRouter } from "next/navigation";
 import {
   isLoginState,
+  SetArabic,
   SetEmail,
   SetInitialEnter,
   SetLevel,
@@ -51,6 +53,7 @@ const useIsMobile = () => {
 export default function HeaderNav() {
   const isMobile = useIsMobile();
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const isArabic = useSelector((state: RootState) => state.counter.isArabic);
   const initialEnter = useSelector(
     (state: RootState) => state.counter.initialEnter,
   );
@@ -113,7 +116,7 @@ export default function HeaderNav() {
 
   const logout = async () => {
     try {
-      setLoadingmess("Checking...");
+      setLoadingmess(isArabic?'التأكد من البيانات...':"Checking...");
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/Player/logout`,
@@ -146,7 +149,7 @@ export default function HeaderNav() {
       if (error instanceof Error) {
         setLoadingmess(error.message);
       } else {
-        setLoadingmess("Something went wrong !!");
+        setLoadingmess(isArabic?'حدث خطأ !! جرب مرة أخرى':"Something went wrong !!");
       }
     }
   };
@@ -276,7 +279,7 @@ export default function HeaderNav() {
         "
                 >
                   <SwordsIcon className="w-3 h-3 text-purple-400" />
-                  Game World
+                 { !isArabic? ' Game World':'عـــالـــــــــــم الألـــعـــاب'}
                 </div>
               </div>
             </motion.div>
@@ -315,7 +318,7 @@ export default function HeaderNav() {
           rounded-full
         "
                     >
-                      Login
+                     {!isArabic ? ' Login':'تسجيل الدخول'}
                     </motion.div>
                   </Link>
                 ) : (
@@ -329,7 +332,7 @@ export default function HeaderNav() {
           rounded-full
         "
                     >
-                      Hello {name}
+                      {isArabic?'مرحبا':'Hello'} {name}
                     </h1>
                   </div>
                 )}
@@ -360,7 +363,7 @@ export default function HeaderNav() {
   "
               >
                 {/* Glow */}
-                <div
+                {/*<div
                   className="
       absolute inset-0
       rounded-full
@@ -368,22 +371,7 @@ export default function HeaderNav() {
       blur-md
       scale-110
     "
-                />
-
-                {/* Rotating ring */}
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  className="
-      absolute -inset-[3px]
-      rounded-full
-      border border-purple-400/30
-    "
-                />
+                />*/}
 
                 {/* Image */}
                 <div
@@ -394,7 +382,7 @@ export default function HeaderNav() {
       overflow-hidden
       border border-white/10
       bg-[#111]
-      shadow-lg
+      ssshadow-lg
     "
                 >
                   <Image
@@ -409,8 +397,6 @@ export default function HeaderNav() {
                     priority
                   />
                 </div>
-
-             
               </motion.div>
             )}
             <button
@@ -544,7 +530,7 @@ export default function HeaderNav() {
             text-xs font-semibold
           "
                     >
-                      {getRankByPoints(points).name.en}
+                      {!isArabic? getRankByPoints(points).name.en :  getRankByPoints(points).name.ar}
                     </div>
                   </div>
                 </div>
@@ -592,7 +578,7 @@ export default function HeaderNav() {
                 {/* TEXT */}
                 <div className="flex flex-col text-right">
                   <h2 className="text-white font-bold text-lg leading-none">
-                    No account
+                   {!isArabic? ' No account':'لا يوجد حساب'}
                   </h2>
 
                   {/*<p className="text-sm text-gray-400">
@@ -611,7 +597,7 @@ export default function HeaderNav() {
           transition w-full
         "
                   >
-                    Sign In
+                    {!isArabic? 'Sign In':'سجل دخولك'}
                   </button>
                 </div>
               </motion.div>
@@ -623,12 +609,91 @@ export default function HeaderNav() {
             className="flex flex-col py-4  text-xl font-semibold  overflow-y-auto scrollbar-hide
   overflow-x-hidden"
           >
+            <div
+              className="
+    group
+    relative
+    overflow-hidden
+    rounded-2xl
+    border border-white/10
+    bg-white/5
+    backdrop-blur-sm
+    transition-all duration-300
+    hover:border-purple-500/40
+    hover:bg-purple-500/10
+    hover:shadow-[0_0_25px_rgba(168,85,247,0.25)]
+  "
+            >
+              <button
+                onClick={() => {
+                  dispatch(SetArabic(!isArabic));
+                }}
+                className="
+      flex items-center justify-between
+      w-full p-4
+      text-white
+      transition-all duration-300
+      group-hover:text-purple-200
+    "
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="
+          p-2 rounded-xl
+          bg-purple-500/15
+          border border-purple-400/20
+        "
+                  >
+                    <Languages
+                      className="
+            w-5 h-5
+            text-purple-300
+            transition-transform duration-300
+            group-hover:rotate-12
+          "
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-start">
+                    <span className="font-semibold text-sm md:text-base">
+                     {!isArabic? ' Language':'الـلــغـة'}
+                    </span>
+
+                    <span className="text-xs text-white/50">
+                     {!isArabic ?' Change app language':'تعير لغة التطبيق'}
+                    </span>
+                  </div>
+                </div>
+
+                <span
+                  className="
+        text-xs px-2 py-1 rounded-full
+        bg-white/10
+        text-white/60
+        border border-white/10
+      "
+                >
+                 {!isArabic?'EN':'AR'}
+                </span>
+              </button>
+
+              <div
+                className="
+      absolute inset-0 opacity-0
+      bg-gradient-to-r from-purple-500/10 to-indigo-500/10
+      transition-opacity duration-300
+      group-hover:opacity-100
+      pointer-events-none
+    "
+              />
+            </div>
+            <div className="p-[0.2px] bg-purple-500/30"></div>
             <div className="text-white text-right hover:shadow-[0_0_25px_rgba(168,85,247,0.6)]  hover:bg-[#05006578] hover:text-purple-300 transition ">
               <Link
                 className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
                 href="/"
               >
-                Home
+                {!isArabic?'Home':'الرئيسية'}
                 <HomeIcon />
               </Link>
             </div>
@@ -637,7 +702,7 @@ export default function HeaderNav() {
                 className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
                 href="/pages/about"
               >
-                About
+                {!isArabic?'About':'حول التطبيق'}
                 <Info />
               </Link>
             </div>
@@ -649,7 +714,7 @@ export default function HeaderNav() {
                   setMenuOpen(false);
                 }}
               >
-                Ranks
+               { !isArabic?'Ranks':'التصنيفات'}
                 <Crown />
               </button>
             </div>
@@ -695,7 +760,7 @@ export default function HeaderNav() {
         rounded-full
       "
                 >
-                  Log out
+                  {!isArabic?'Log out':'تسجيل الخروج'}
                 </motion.button>
               </div>
             )}
@@ -868,7 +933,7 @@ export default function HeaderNav() {
           uppercase
         "
               >
-                Enter The Gaming World
+                {!isArabic?'Enter The Gaming World':'ادخل لعالم الألعاب'}
               </motion.p>
 
               {/* Loader */}
@@ -906,7 +971,7 @@ export default function HeaderNav() {
             tracking-[0.4em]
           "
                 >
-                  LOADING
+                  {!isArabic?'LOADING':'جاري التحميل'}
                 </motion.h2>
 
                 {/* Bars */}
@@ -952,10 +1017,10 @@ export default function HeaderNav() {
             onClick={() => setOpenRanks(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale:isMobile?1: 0.9, opacity:isMobile?1: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              exit={{ scale:isMobile?1: 0.9, opacity: 0 }}
+              transition={{ duration:isMobile?0: 0.2 }}
               onClick={(e) => e.stopPropagation()}
               className="
           w-full max-w-4xl
@@ -964,7 +1029,7 @@ export default function HeaderNav() {
           rounded-3xl
           border border-white/10
           bg-[#111111]
-          shadow-2xl
+          md:shadow-2xl
         "
             >
               {/* HEADER */}
@@ -979,11 +1044,11 @@ export default function HeaderNav() {
               >
                 <div>
                   <h2 className="text-white text-xl md:text-2xl font-black">
-                    Rank System
+                    {isArabic?'نظام التصنيفات':'Rank System'}
                   </h2>
 
-                  <p className="text-gray-400 text-sm">
-                    Progress through ranks and become a legend
+                  <p dir={isArabic?'rtl':'ltr'} className="text-gray-400 text-sm">
+                    {isArabic?'شق طريقك عبر التصنيفات وكن أسطورة':'Progress through ranks and become a legend'}
                   </p>
                 </div>
 
@@ -1061,7 +1126,7 @@ export default function HeaderNav() {
                       shadow-lg
                     "
                         >
-                          YOU HERE
+                         {isArabic?'انت هنا':'YOU HERE'}
                         </div>
                       )}
 
@@ -1161,7 +1226,7 @@ export default function HeaderNav() {
                     "
                         >
                           <p className="text-gray-400 text-xs">
-                            Required Points
+                            {isArabic?'النقاط المطلوبة':'Required Points'}
                           </p>
 
                           <p className="text-green-400 font-bold mt-1">

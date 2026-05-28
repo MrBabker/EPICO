@@ -9,6 +9,8 @@ import {
   ShieldCheck,
   Gamepad2,
   LoaderCircle,
+  EyeOff,
+  Eye,
 } from "lucide-react";
 
 import Link from "next/link";
@@ -23,6 +25,8 @@ import {
 
 export default function Register() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const isArabic = useSelector((state: RootState) => state.counter.isArabic);
+
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -30,14 +34,32 @@ export default function Register() {
   const [Email, SetEmails] = useState<string>("");
   const [Password, SetPassword] = useState<string>("");
   const [ConfirmPassword, SetConfirmPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loadingmess, setLoadingmess] = useState<string>("");
 
   const Register = async () => {
     if (ConfirmPassword != Password) {
-      setLoadingmess("Password confirmation does not match !");
+      setLoadingmess(
+        isArabic
+          ? "تأكيد كلمة السر غير مطابقة"
+          : "Password confirmation does not match !",
+      );
       return;
     }
 
+    if (
+      ConfirmPassword.trim().length <= 0 ||
+      Password.trim().length <= 0 ||
+      Email.trim().length <= 0 ||
+      Name.trim().length <= 0
+    ) {
+      setLoadingmess(
+        isArabic
+          ? "لا يمكنك ترك اي خانة فارغة !!!"
+          : "Do not let any field empty",
+      );
+      return;
+    }
     try {
       setLoadingmess("Checking...");
 
@@ -87,10 +109,10 @@ export default function Register() {
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-[#09090b] via-[#111827] to-[#140f2a] text-white pt-20">
       {/* BACKGROUND */}
       <div className="absolute inset-0">
-       
-       
         {/* Grid */}
-        {/*  <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]" />*/}{" "}
+        {
+          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]" />
+        }{" "}
       </div>
 
       {/* CONTENT */}
@@ -222,7 +244,6 @@ export default function Register() {
 
               {/* Subtitle */}
               <p
-               
                 className="
                   text-gray-400
                   mt-3 lg:mt-5
@@ -235,26 +256,28 @@ export default function Register() {
                   text-center
                 "
               >
-                Enter The Gaming World
+                {isArabic
+                  ? "ادخـــل لـعــالـــم الألـــعــاب"
+                  : "Enter The Gaming World"}
               </p>
 
               {/* STATS */}
-              <div className="hidden lg:flex gap-4 mt-12">
+              {/* <div className="hidden lg:flex gap-4 mt-12">
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-5 ">
                   <h2 className="text-3xl font-bold text-purple-300">25K+</h2>
-                  <p className="text-gray-400 text-sm mt-1">Players</p>
+                  <p className="text-gray-400 text-sm mt-1">{isArabic?'اللاعبين':'Players'}</p>
                 </div>
 
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-5 ">
                   <h2 className="text-3xl font-bold text-fuchsia-300">120+</h2>
-                  <p className="text-gray-400 text-sm mt-1">Events</p>
+                  <p className="text-gray-400 text-sm mt-1">{isArabic?'الفعاليات':'Events'}</p>
                 </div>
 
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-5 ">
                   <h2 className="text-3xl font-bold text-cyan-300">99%</h2>
-                  <p className="text-gray-400 text-sm mt-1">Competitive</p>
+                  <p className="text-gray-400 text-sm mt-1">{isArabic?'التنافس':'Competitive'}</p>
                 </div>
-              </div>
+              </div>*/}
             </div>
           </motion.div>
 
@@ -272,53 +295,75 @@ export default function Register() {
 
               {/* Title */}
               <div className="text-center mb-8">
-                <h1 className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-purple-300 to-fuchsia-400 bg-clip-text text-transparent">
-                  REGISTER
-                </h1>
+                <div
+                  className={
+                    isArabic
+                      ? "text-2xl md:h-15 sm:text-5xl font-bold bg-gradient-to-r from-purple-300 to-fuchsia-400 bg-clip-text text-transparent"
+                      : "text-4xl sm:text-5xl font-black bg-gradient-to-r from-purple-300 to-fuchsia-400 bg-clip-text text-transparent"
+                  }
+                >
+                  {isArabic ? "تـسـجـيـل الـدخـول" : "REGISTER"}
+                </div>
 
                 <p className="text-gray-400 mt-3 text-sm sm:text-base">
-                  Create your account and start your journey.
+                  {isArabic
+                    ? "أنشئ حسابك وابدأ رحلتك."
+                    : "Create your account and start your journey."}
                 </p>
               </div>
 
               {/* Username */}
               <InputField
                 icon={<User size={18} />}
-                label="Username"
-                placeholder="Enter your username"
+                label={isArabic ? "اسم المستخدم" : "Username"}
+                placeholder={
+                  isArabic ? "ادخل اسم المستخدم" : "Enter your username"
+                }
                 type="text"
+                no={1}
                 setInfo={SetName}
                 setMessage={setLoadingmess}
+                showPass={showPassword}
+                SetShowpassword={setShowPassword}
               />
 
               {/* Email */}
               <InputField
                 icon={<Mail size={18} />}
-                label="Email"
-                placeholder="Enter your email"
+                label={isArabic ? "البريد الالكتروني" : "Email"}
+                placeholder={isArabic ? "ادخل ايميلك" : "Enter your email"}
                 type="email"
+                no={2}
                 setInfo={SetEmails}
                 setMessage={setLoadingmess}
+                showPass={showPassword}
+                SetShowpassword={setShowPassword}
               />
 
               {/* Password */}
               <InputField
                 icon={<Lock size={18} />}
-                label="Password"
-                placeholder="Create password"
-                type="password"
+                label={isArabic ? "كلمة السر" : "Password"}
+                placeholder={isArabic ? "كلمة السر" : "Create password"}
+                type={showPassword ? "text" : "password"}
+                no={3}
                 setInfo={SetPassword}
                 setMessage={setLoadingmess}
+                showPass={showPassword}
+                SetShowpassword={setShowPassword}
               />
 
               {/* Confirm Password */}
               <InputField
                 icon={<Lock size={18} />}
-                label="Confirm Password"
-                placeholder="Confirm password"
+                label={isArabic ? "تأكيد كلمة السر" : "Confirm Password"}
+                placeholder={isArabic ? "تأكيد كلمة السر" : "Confirm password"}
                 type="password"
+                no={4}
                 setInfo={SetConfirmPassword}
                 setMessage={setLoadingmess}
+                showPass={showPassword}
+                SetShowpassword={setShowPassword}
               />
 
               {/* BUTTON */}
@@ -361,19 +406,19 @@ export default function Register() {
 
                   <span className="relative flex items-center justify-center gap-2">
                     <ShieldCheck size={18} />
-                    Create Account
+                    {isArabic ? "انشاء الحساب" : "Create Account"}
                   </span>
                 </motion.button>
               )}
 
               {/* Footer */}
               <p className="text-center text-sm text-gray-400 mt-6">
-                Already have an account?{" "}
+                {isArabic ? "ليك حساب ؟" : "Already have an account?"}{" "}
                 <Link
                   href="/pages/login"
                   className="text-purple-300 hover:text-white transition"
                 >
-                  Login
+                  {isArabic ? "تسجيل الدخول" : "Login"}
                 </Link>
               </p>
             </div>
@@ -386,19 +431,25 @@ export default function Register() {
 
 /* INPUT FIELD */
 function InputField({
+  no,
   icon,
   label,
   placeholder,
   type,
   setInfo,
   setMessage,
+  showPass,
+  SetShowpassword,
 }: {
+  no: number;
   icon: React.ReactNode;
   label: string;
   placeholder: string;
   type: string;
   setInfo: React.Dispatch<React.SetStateAction<string>>;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
+  showPass: boolean;
+  SetShowpassword: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
     <div className="mb-5">
@@ -410,31 +461,52 @@ function InputField({
       <div className="group relative">
         <div className="absolute inset-0 rounded-2xl  group-focus-within:opacity-100 blur-xl transition duration-300" />
 
-        <input
-          onChange={(e) => {
-            setInfo(e.target.value);
-            setMessage("");
-          }}
-          type={type}
-          placeholder={placeholder}
-          className="
-            relative
-            w-full
-            px-4
-            py-3.5
-            rounded-2xl
-            bg-black/30
-            border
-            border-[#e3b6ff7e]
-            text-white
-            placeholder:text-gray-500
-            outline-none
-            transition-all
-            duration-300
-            focus:border-purple-400
-            focus:bg-black/40
-          "
-        />
+        <div className="relative w-full">
+          <input
+            onChange={(e) => {
+              setInfo(e.target.value);
+              setMessage("");
+            }}
+            type={type}
+            placeholder={placeholder}
+            required
+            className="
+      w-full
+      px-4
+      py-3.5
+      pr-12
+      rounded-2xl
+      bg-black/30
+      border
+      border-[#e3b6ff7e]
+      text-white
+      placeholder:text-gray-500
+      outline-none
+      transition-all
+      duration-300
+      focus:border-purple-400
+      focus:bg-black/40
+    "
+          />
+
+          {no === 3 && (
+            <button
+              type="button"
+              onClick={() => SetShowpassword(!showPass)}
+              className="
+      absolute
+      right-4
+      top-1/2
+      -translate-y-1/2
+      text-gray-400
+      hover:text-white
+      transition
+    "
+            >
+              {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

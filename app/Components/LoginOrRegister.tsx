@@ -1,15 +1,83 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Gamepad2, LogIn, UserPlus } from "lucide-react";
+import { Gamepad2, LogIn, Snowflake, Star, UserPlus } from "lucide-react";
 import Link from "next/link";
 import HeaderNav from "./HeaderNav";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+
+// 🎯 Mobile hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+};
 
 const LoginOrRegister = () => {
+  const isArabic = useSelector((state: RootState) => state.counter.isArabic);
+  const isMobile = useIsMobile();
+  // ⚡ particles optimized
+  const particles = useMemo(() => {
+    const count = isMobile ? 8 : 25;
+
+    return Array.from({ length: count }).map((_, i) => ({
+      x: (i * 37) % 100,
+      y: (i * 71) % 100,
+      vx: (i % 2 === 0 ? 1 : -1) * (0.05 + (i % 5) * 0.02),
+      vy: (i % 3 === 0 ? 1 : -1) * (0.04 + (i % 4) * 0.02),
+      size: isMobile ? 5 : 5 + (i % 3),
+    }));
+  }, [isMobile]);
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#09090b] via-[#111827] to-[#0f172a] relative overflow-hidden pt-20">
       {/*<HeaderNav />*/}
+      {/* ✨ Particles */}
+      <div className="fixed inset-0 pointer-events-none -z-0">
+        {true &&
+          particles.map((p, i) => (
+            <motion.div
+              key={i}
+              className="absolute bg-purple-400/0 rounded-full  md:sblur-sm"
+              style={{
+                width: p.size,
+                height: p.size,
+                left: `${p.x}%`,
+                top: `${p.y}%`,
+              }}
+              animate={
+                isMobile
+                  ? {
+                      x: [0, p.vx * 100, 0],
+                      y: [0, p.vy * 100, 0],
+                      opacity: [0.2, 0.3, 0.2],
+                      scale: [1 / 3, 1.6 / 3, 1 / 3],
+                    }
+                  : {
+                      x: [0, p.vx * 200, 0],
+                      y: [0, p.vy * 200, 0],
+                      opacity: [0.2, 0.3, 0.2],
+                      scale: [1 / 2, 1.6 / 2, 1 / 2],
+                    }
+              }
+              transition={{
+                duration: isMobile ? 4 : 6,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            >
+              <Star className="fill-[#ffffff35] text-[#6adcff98]" />
+            </motion.div>
+          ))}
+      </div>
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* CARD */}
         <motion.div
@@ -126,7 +194,7 @@ const LoginOrRegister = () => {
       text-center
     "
             >
-              Enter The Gaming World
+              {isArabic ? "ادخـل لـعـالـم الالـعـاب" : "Enter The Gaming World"}
             </p>
           </div>
 
@@ -169,10 +237,14 @@ const LoginOrRegister = () => {
                   <LogIn className="text-white w-10 h-10" />
                 </div>
 
-                <h2 className="text-white text-2xl font-bold mb-2">Login</h2>
+                <h2 className="text-white text-2xl font-bold mb-2">
+                  {isArabic ? "تسجيل الدخول" : "Login"}
+                </h2>
 
                 <p className="text-gray-400 text-center text-sm">
-                  Access your account and continue your adventure.
+                  {isArabic
+                    ? "قـم بالـدخول إلـى حسـابك واسـتـمـر في مـغـامـرتك."
+                    : "Access your account and continue your adventure."}
                 </p>
               </motion.div>
             </Link>
@@ -214,10 +286,14 @@ const LoginOrRegister = () => {
                   <UserPlus className="text-white w-10 h-10" />
                 </div>
 
-                <h2 className="text-white text-2xl font-bold mb-2">Register</h2>
+                <h2 className="text-white text-2xl font-bold mb-2">
+                  {isArabic ? "انشاء حساب" : "Register"}
+                </h2>
 
                 <p className="text-gray-400 text-center text-sm">
-                  Create a new account and join the gaming world.
+                  {isArabic
+                    ? "أنـشـئ حـسـابًـا جـديـدًا وانـضم إلـى عـالم الألـعـاب."
+                    : "Create a new account and join the gaming world."}
                 </p>
               </motion.div>
             </Link>

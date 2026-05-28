@@ -1,8 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, Gamepad2, Section, LoaderCircle } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Gamepad2,
+  Section,
+  LoaderCircle,
+  Star,
+  EyeOff,
+  Eye,
+} from "lucide-react";
 import HeaderNav from "./HeaderNav";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,19 +23,55 @@ import {
 } from "../features/counter/counterSlice";
 import { useRouter } from "next/navigation";
 
+// 🎯 Mobile hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile;
+};
+
 const Login = () => {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const isArabic = useSelector((state: RootState) => state.counter.isArabic);
+
   const dispatch = useDispatch();
 
   const router = useRouter();
   const [NameOrEmail, SetNameOrEmail] = useState<string>("");
   const [Password, SetPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loadingmess, setLoadingmess] = useState<string>("");
 
+  const isMobile = useIsMobile();
+  // ⚡ particles optimized
+  const particles = useMemo(() => {
+    const count = isMobile ? 8 : 25;
+
+    return Array.from({ length: count }).map((_, i) => ({
+      x: (i * 37) % 100,
+      y: (i * 71) % 100,
+      vx: (i % 2 === 0 ? 1 : -1) * (0.05 + (i % 5) * 0.02),
+      vy: (i % 3 === 0 ? 1 : -1) * (0.04 + (i % 4) * 0.02),
+      size: isMobile ? 5 : 5 + (i % 3),
+    }));
+  }, [isMobile]);
   const login = async () => {
     try {
-      setLoadingmess("Checking...");
+      setLoadingmess(isArabic ? "تحقق" : "Checking...");
 
+      if (NameOrEmail.trim().length <= 0 || Password.trim().length <= 0) {
+        setLoadingmess(
+          isArabic ? "بياناتك ناقصة" : "Your data is not complete",
+        );
+        return;
+      }
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/Player/login`,
         {
@@ -78,7 +123,6 @@ const Login = () => {
         pt-20
       "
     >
-    
       {/*<HeaderNav />*/}
 
       <div
@@ -90,7 +134,44 @@ const Login = () => {
         overflow-hidden
       "
       >
-      
+        {/* ✨ Particles */}
+        <div className="fixed inset-0 pointer-events-none -z-0">
+          {true &&
+            particles.map((p, i) => (
+              <motion.div
+                key={i}
+                className="absolute bg-purple-400/0 rounded-full  md:sblur-sm"
+                style={{
+                  width: p.size,
+                  height: p.size,
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                }}
+                animate={
+                  isMobile
+                    ? {
+                        x: [0, p.vx * 100, 0],
+                        y: [0, p.vy * 100, 0],
+                        opacity: [0.2, 0.5, 0.2],
+                        scale: [1 / 3, 1.6 / 3, 1 / 3],
+                      }
+                    : {
+                        x: [0, p.vx * 200, 0],
+                        y: [0, p.vy * 200, 0],
+                        opacity: [0.2, 0.5, 0.2],
+                        scale: [1 / 3, 1.6 / 3, 1 / 3],
+                      }
+                }
+                transition={{
+                  duration: isMobile ? 4 : 6,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              >
+                <Star className="fill-[#aa00ff6b] text-[#aa00ff6b]" />
+              </motion.div>
+            ))}
+        </div>
         {/* CARD */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
@@ -220,7 +301,7 @@ const Login = () => {
               text-center
             "
             >
-              Enter The Gaming World
+              {isArabic ? "ادخـل لـعـالـم الالـعـاب" : "Enter The Gaming World"}
             </motion.p>
           </div>
           {/* FORM */}
@@ -235,7 +316,11 @@ const Login = () => {
                   SetNameOrEmail(e.target.value);
                   setLoadingmess("");
                 }}
-                placeholder="Email Address"
+                placeholder={
+                  isArabic
+                    ? "المستخدم او البريد الالكتروني"
+                    : "Email Address Or Username"
+                }
                 className="
                 w-full
                 pl-12
@@ -259,38 +344,57 @@ const Login = () => {
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-purple-400 w-5 h-5" />
 
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => {
-                  SetPassword(e.target.value);
-                  setLoadingmess("");
-                }}
-                className="
-                w-full
-                pl-12
-                pr-4
-                py-4
-                rounded-2xl
-                bg-black/40
-                border border-purple-500/70
-                text-white
-                placeholder:text-gray-500
-                outline-none
-                focus:border-pink-500
-                focus:ring-2
-                focus:ring-pink-500/30
-                transition
-              "
-              />
+              <div className="relative w-full">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  placeholder={isArabic ? "كلمة السر" : "Password"}
+                  onChange={(e) => {
+                    SetPassword(e.target.value);
+                    setLoadingmess("");
+                  }}
+                  className="
+      w-full
+      pl-12
+      pr-12
+      py-4
+      rounded-2xl
+      bg-black/40
+      border border-purple-500/70
+      text-white
+      placeholder:text-gray-500
+      outline-none
+      focus:border-pink-500
+      focus:ring-2
+      focus:ring-pink-500/30
+      transition
+    "
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="
+      absolute
+      right-4
+      top-1/2
+      -translate-y-1/2
+      text-gray-400
+      hover:text-white
+      transition
+    "
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
 
             {/* OPTIONS */}
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-gray-400">
+              {/*<label className="flex items-center gap-2 text-gray-400">
                 <input type="checkbox" className="accent-purple-500" />
                 Remember me
-              </label>
+              </label>*/}
 
               {false && (
                 <button
@@ -336,18 +440,18 @@ const Login = () => {
               shadows-lg
             "
               >
-                LOGIN
+                {isArabic ? "تسجيل الدخول" : "LOGIN"}
               </motion.button>
             )}
           </form>
 
           {/* FOOTER */}
           <div className="mt-6 text-center">
-            <p className="text-gray-500 text-sm">
-              New to EPICO?{" "}
+            <p className="text-gray-500 text-sm flex flex-row justify-center gap-1">
+              {isArabic ? "EPICO ? جديد في عالم" : "New to EPICO?"}{" "}
               <Link href={"/pages/register"}>
                 <span className="text-purple-400 cursor-pointer hover:text-pink-400 transition">
-                  Create Account
+                  {isArabic ? "انشاء حساب" : "Create Account"}
                 </span>
               </Link>
             </p>

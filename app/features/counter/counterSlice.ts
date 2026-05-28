@@ -4,6 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 export interface CounterState {
   value: number,
   initialEnter:boolean,
+  isArabic:boolean,
   islogin: boolean,
   Name: string,
   Email: string,
@@ -16,6 +17,7 @@ export interface CounterState {
 const initialState: CounterState = {
   value: 0,
   initialEnter:false,
+  isArabic:true,
   islogin: false,
   Name: '',
   Email: '',
@@ -47,6 +49,9 @@ export const counterSlice = createSlice({
      SetInitialEnter: (state, action: PayloadAction<boolean>) => {
       state.initialEnter = action.payload;
     },
+      SetArabic: (state, action: PayloadAction<boolean>) => {
+      state.isArabic = action.payload;
+    },
 
     SetName: (state, action: PayloadAction<string>) => {
       state.Name = action.payload;
@@ -71,6 +76,6 @@ export const counterSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {SetInitialEnter, increment, decrement, incrementByAmount, isLoginState, SetName, SetUsername, SetEmail, SetPoints, SetLevel } = counterSlice.actions
+export const {SetInitialEnter,SetArabic, increment, decrement, incrementByAmount, isLoginState, SetName, SetUsername, SetEmail, SetPoints, SetLevel } = counterSlice.actions
 
 export default counterSlice.reducer

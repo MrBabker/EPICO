@@ -1,6 +1,25 @@
 "use client";
 
-import { Trophy, Star, LoaderCircle } from "lucide-react";
+import {
+  Trophy,
+  Star,
+  LoaderCircle,
+  Gamepad,
+  Gamepad2Icon,
+  StarIcon,
+  StarHalf,
+  Stars,
+  StarOff,
+  ListStart,
+  MoonStar,
+  UserStar,
+  Pickaxe,
+  Snowflake,
+  LogIn,
+  Flame,
+  SparkleIcon,
+  Gamepad2,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -8,7 +27,7 @@ import Image from "next/image";
 import HeaderNav from "./HeaderNav";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { Player } from "../utils";
+import { getRankByPoints, Player } from "../utils";
 
 // 🎯 Mobile hook
 const useIsMobile = () => {
@@ -26,6 +45,8 @@ const useIsMobile = () => {
 
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+  const isArabic = useSelector((state: RootState) => state.counter.isArabic);
+
   const name = useSelector((state: RootState) => state.counter.Name);
 
   const isMobile = useIsMobile();
@@ -41,21 +62,21 @@ export default function HomeScreen() {
       y: (i * 71) % 100,
       vx: (i % 2 === 0 ? 1 : -1) * (0.05 + (i % 5) * 0.02),
       vy: (i % 3 === 0 ? 1 : -1) * (0.04 + (i % 4) * 0.02),
-      size: isMobile ? 5 : 10 + (i % 3),
+      size: isMobile ? 5 : 5 + (i % 3),
     }));
   }, [isMobile]);
 
   useEffect(() => {
     const GetTopPlayers = async () => {
-      setLoadingmess("Loading Players...");
+      setLoadingmess(isArabic?'تحميل بيانات الاعبين':"Loading Players...");
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_HOST + "/api/Player/top",
         );
 
         if (!res.ok) {
-          setLoadingmess("Failed to fetch !");
-          throw new Error("Failed to fetch");
+          setLoadingmess(res.text.toString());
+          throw new Error(isArabic?'جلب البيانات فشل !':"Failed to fetch");
         }
 
         setLoadingmess("");
@@ -64,7 +85,7 @@ export default function HomeScreen() {
         setPlayers(data);
       } catch (error) {
         console.log(error);
-        setLoadingmess("Something went wrong !!");
+        setLoadingmess(isArabic?'حدث خطأ ما !':"Something went wrong !!");
       }
     };
     GetTopPlayers();
@@ -91,7 +112,7 @@ export default function HomeScreen() {
           particles.map((p, i) => (
             <motion.div
               key={i}
-              className="absolute bg-purple-400 rounded-full  md:blur-sm"
+              className="absolute bg-purple-400/0 rounded-full  md:sblur-sm"
               style={{
                 width: p.size,
                 height: p.size,
@@ -104,13 +125,13 @@ export default function HomeScreen() {
                       x: [0, p.vx * 100, 0],
                       y: [0, p.vy * 100, 0],
                       opacity: [0.2, 0.5, 0.2],
-                      scale: [1, 1.6, 1],
+                      scale: [1 / 3, 1.6 / 3, 1 / 3],
                     }
                   : {
                       x: [0, p.vx * 200, 0],
                       y: [0, p.vy * 200, 0],
-                      opacity: [0.5, 0.8, 0.5],
-                      scale: [1, 1.6, 1],
+                      opacity: [0.2, 0.5, 0.2],
+                      scale: [1 / 2.5, 1.6 / 2.5, 1 / 2.5],
                     }
               }
               transition={{
@@ -118,7 +139,9 @@ export default function HomeScreen() {
                 repeat: Infinity,
                 ease: "linear",
               }}
-            />
+            >
+              <StarIcon className="fill-[#be56ffa9] text-[#be56ffa9]" />
+            </motion.div>
           ))}
       </div>
 
@@ -155,13 +178,21 @@ export default function HomeScreen() {
               y: isMobile ? 0 : [10, 0],
             }}
             transition={{ duration: 0.7 }}
-            className="text-4xl md:text-6xl font-extrabold tracking-widest text-purple-400"
+            className={
+              isArabic
+                ? "text-4xl md:text-6xl tracking-widest font-bold text-purple-400"
+                : "text-4xl md:text-6xl font-extrabold tracking-widest text-purple-400"
+            }
           >
             {isLogin ? (
               <span>
-                WELCOME TO THE EPICO WORLD{" "}
+                {isArabic
+                  ? "مـرحـبـا بـك فـي عـالـم EPICO"
+                  : "WELCOME TO THE EPICO WORLD"}{" "}
                 <span className="text-white">{name}</span>
               </span>
+            ) : isArabic ? (
+              "EPICO كـن واحـدا مـن عـالـم "
             ) : (
               "BE ONE OF THE EPICO WORLD"
             )}
@@ -169,8 +200,12 @@ export default function HomeScreen() {
 
           <p className="mt-4 text-gray-400">
             {isLogin
-              ? "Keep earning XP and rise in my gaming universe."
-              : "Compete, earn XP, and rise in my gaming universe."}
+              ? isArabic
+                ? "واصل كسب الخبرة وارتقِ في عالمي الخاص بالألعاب."
+                : "Keep earning XP and rise in my gaming universe."
+              : isArabic
+                ? "تنافس، اكسب الخبرة، واصعد بين الرتب في عالم الألعاب  ."
+                : "Compete, earn XP, and rise in my gaming universe."}
           </p>
 
           {!isLogin && (
@@ -203,7 +238,10 @@ export default function HomeScreen() {
                     }}
                     className="cursor-pointer px-10 py-5 bg-purple-600 text-white text-2xl font-bold  rounded-full"
                   >
-                    <p className=" select-none  "> Get Started</p>
+                    <p className="select-none flex items-center justify-center gap-2">
+                      {isArabic ? "ابــدأ الآن" : "Get Started"}
+                      <Flame size={30} />
+                    </p>{" "}
                   </motion.div>
                 </Link>
               </motion.div>
@@ -216,7 +254,7 @@ export default function HomeScreen() {
           <div className="w-full max-w-2xl">
             <div className="flex items-center gap-2 mb-6 text-2xl font-bold text-yellow-400 justify-center">
               <Trophy />
-              Top 10 Players
+              {isArabic ? "أقـوى 10 لاعـبـيـن" : "Top 10 Players"}
             </div>
 
             {loadingmess.trim().length > 0 && (
@@ -248,7 +286,7 @@ export default function HomeScreen() {
     active:scale-[0.99]
 
     ${
-     ( p.name === name && isLogin)
+      p.name === name && isLogin
         ? `
           border-purple-500/60
           shadow-[0_0_25px_rgba(168,85,247,0.18)]
@@ -264,7 +302,7 @@ export default function HomeScreen() {
   `}
                   >
                     {/* Small glow for current player */}
-                    {(p.name === name && isLogin) && (
+                    {p.name === name && isLogin && (
                       <div
                         className="
         absolute inset-0
@@ -296,16 +334,24 @@ export default function HomeScreen() {
 
                         {/* Player */}
                         <div className="min-w-0">
-                          <p
-                            className={`
+                          <div className=" flex flex-row gap-2 items-center">
+                            <Image
+                              src={getRankByPoints(p.points).name.path}
+                              alt={getRankByPoints(p.points).name.en}
+                              width={30}
+                              height={30}
+                            />
+                            <p
+                              className={`
             font-bold truncate
-            ${(p.name === name && isLogin) ? "text-white" : "text-gray-200"}
+            ${p.name === name && isLogin ? "text-white" : "text-gray-200"}
           `}
-                          >
-                            {p.name}
-                          </p>
+                            >
+                              {p.name}
+                            </p>
+                          </div>
 
-                          {(p.name === name && isLogin) && (
+                          {p.name === name && isLogin && (
                             <span className="text-[11px] text-purple-300 font-medium">
                               YOU
                             </span>
@@ -330,8 +376,11 @@ export default function HomeScreen() {
         </section>
 
         {/* FOOTER */}
-        <footer className="py-10 text-sm text-center text-gray-500">
-          Built for my gaming universe ⚡
+        <footer className="py-10 text-sm text-center gap-2 text-gray-500 flex flex-row justify-center">
+          {isArabic
+            ? "صُمم خصيصًا لعالمي الخاص بالألعاب"
+            : "Built for my gaming universe"}
+          <Gamepad2 />
         </footer>
       </div>
     </div>
