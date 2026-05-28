@@ -14,6 +14,7 @@ import {
   LoaderCircle,
   Crown,
   Languages,
+  ShieldCheck,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
@@ -591,11 +592,10 @@ export default function HeaderNav() {
               className="
     group
     relative
-    overflow-hidden
     rounded-2xl
     border border-white/10
     bg-white/5
-    backdrop-blur-sm
+    ssbackdrop-blur-sm
     transition-all duration-300
     hover:border-purple-500/40
     hover:bg-purple-500/10
@@ -696,7 +696,21 @@ export default function HeaderNav() {
                 <Crown />
               </button>
             </div>
-
+            <div className="p-[0.2px] bg-purple-500/30"></div>
+            {/* 2ec Section */}
+            <div className="flex flex-col py-4  text-xl font-semibold  ">
+              <div className="text-white text-right hover:shadow-[0_0_25px_rgba(168,85,247,0.6)]  hover:bg-[#05006578] hover:text-purple-300 transition ">
+                <Link
+                  className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
+                  href="/pages/privacy"
+                >
+                  {!isArabic ? "Privacy Policy" : "سياسة الخصوصية"}
+                  <ShieldCheck  />
+                </Link>
+              </div>
+             
+             
+            </div>
             {/*Array.from({ length: 20 }).map((_, i) => (
             <div
               key={i}
