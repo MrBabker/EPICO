@@ -42,7 +42,7 @@ const LoginOrRegister = () => {
       {/*<HeaderNav />*/}
       {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
-        {true &&
+        {!isMobile &&
           particles.map((p, i) => (
             <motion.div
               key={i}
@@ -78,6 +78,10 @@ const LoginOrRegister = () => {
             </motion.div>
           ))}
       </div>
+
+      {isMobile && (
+        <div className="fixed inset-0 pointer-events-none particles" />
+      )}
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
         {/* CARD */}
         <motion.div

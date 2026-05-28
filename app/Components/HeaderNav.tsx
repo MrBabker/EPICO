@@ -116,7 +116,7 @@ export default function HeaderNav() {
 
   const logout = async () => {
     try {
-      setLoadingmess(isArabic?'التأكد من البيانات...':"Checking...");
+      setLoadingmess(isArabic ? "التأكد من البيانات..." : "Checking...");
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_HOST}/api/Player/logout`,
@@ -149,7 +149,9 @@ export default function HeaderNav() {
       if (error instanceof Error) {
         setLoadingmess(error.message);
       } else {
-        setLoadingmess(isArabic?'حدث خطأ !! جرب مرة أخرى':"Something went wrong !!");
+        setLoadingmess(
+          isArabic ? "حدث خطأ !! جرب مرة أخرى" : "Something went wrong !!",
+        );
       }
     }
   };
@@ -279,7 +281,9 @@ export default function HeaderNav() {
         "
                 >
                   <SwordsIcon className="w-3 h-3 text-purple-400" />
-                 { !isArabic? ' Game World':'عـــالـــــــــــم الألـــعـــاب'}
+                  {!isArabic
+                    ? " Game World"
+                    : "عـــالـــــــــــم الألـــعـــاب"}
                 </div>
               </div>
             </motion.div>
@@ -318,7 +322,7 @@ export default function HeaderNav() {
           rounded-full
         "
                     >
-                     {!isArabic ? ' Login':'تسجيل الدخول'}
+                      {!isArabic ? " Login" : "تسجيل الدخول"}
                     </motion.div>
                   </Link>
                 ) : (
@@ -332,72 +336,47 @@ export default function HeaderNav() {
           rounded-full
         "
                     >
-                      {isArabic?'مرحبا':'Hello'} {name}
+                      {isArabic ? "مرحبا" : "Hello"} {name}
                     </h1>
                   </div>
                 )}
               </motion.div>
             </div>
             {isLogin && (
-              <motion.div
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.92 }}
-                animate={{
-                  y: [0, -3, 0],
-                }}
-                transition={{
-                  y: {
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                  scale: {
-                    duration: 0.15,
-                  },
-                }}
+              <div
                 onClick={() => setOpenRanks(true)}
                 className="
-    relative
-    cursor-pointer
-    select-none
-  "
-              >
-                {/* Glow */}
-                {/*<div
-                  className="
-      absolute inset-0
-      rounded-full
-      bg-purple-500/25
-      blur-md
-      scale-110
-    "
-                />*/}
+      relative cursor-pointer select-none
 
-                {/* Image */}
+      w-10 h-10 md:w-12 md:h-12
+
+      transition-transform duration-150
+      hover:scale-110 active:scale-90
+
+      animate-float
+      flex items-center justify-center
+    "
+              >
                 <div
                   className="
-      relative
-      w-10 h-10 md:w-12 md:h-12
-      rounded-full
-      overflow-hidden
-      border border-white/10
-      bg-[#111]
-      ssshadow-lg
-    "
+        w-full h-full
+        rounded-full
+        overflow-hidden
+        border border-white/10
+        bg-[#111]
+        shadow-lg
+      "
                 >
                   <Image
                     src={getRankByPoints(points).name.path}
                     alt="Rank"
                     width={48}
                     height={48}
-                    className="
-        w-full h-full
-        object-cover
-      "
+                    className="w-full h-full object-cover"
                     priority
                   />
                 </div>
-              </motion.div>
+              </div>
             )}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -410,25 +389,22 @@ export default function HeaderNav() {
           {/* MOBILE MENU */}
         </header>
         {/* MOBILE SLIDE MENU */}
-        <motion.div
-          initial={{ x: "100%" }}
-          animate={{ x: menuOpen ? 0 : "100%" }}
-          transition={{
-            type: "spring",
-            stiffness: 260,
-            damping: 25,
-          }}
-          className="
-  fixed top-0 right-0
-  h-screen w-[320px]
-  bg-gradient-to-b from-[#251743] via-[#111827] to-[#0f172a]
-  border-l border-purple-500/20
-  md:sbackdrop-blur-xl
-  z-[1000]
-  md:
-  flex flex-col 
- 
-"
+        <div
+          className={`
+    fixed top-0 right-0
+    h-screen w-[320px]
+    bg-gradient-to-b from-[#251743] via-[#111827] to-[#0f172a]
+    border-l border-purple-500/20
+    md:backdrop-blur-xl
+    z-[1000]
+    flex flex-col
+
+    transform-gpu
+    transition-transform duration-300
+    ease-[cubic-bezier(0.34,1.2,0.64,1)]
+
+    ${menuOpen ? "translate-x-0" : "translate-x-full"}
+  `}
         >
           {/* CLOSE BUTTON */}
           <button
@@ -530,7 +506,9 @@ export default function HeaderNav() {
             text-xs font-semibold
           "
                     >
-                      {!isArabic? getRankByPoints(points).name.en :  getRankByPoints(points).name.ar}
+                      {!isArabic
+                        ? getRankByPoints(points).name.en
+                        : getRankByPoints(points).name.ar}
                     </div>
                   </div>
                 </div>
@@ -578,7 +556,7 @@ export default function HeaderNav() {
                 {/* TEXT */}
                 <div className="flex flex-col text-right">
                   <h2 className="text-white font-bold text-lg leading-none">
-                   {!isArabic? ' No account':'لا يوجد حساب'}
+                    {!isArabic ? " No account" : "لا يوجد حساب"}
                   </h2>
 
                   {/*<p className="text-sm text-gray-400">
@@ -597,7 +575,7 @@ export default function HeaderNav() {
           transition w-full
         "
                   >
-                    {!isArabic? 'Sign In':'سجل دخولك'}
+                    {!isArabic ? "Sign In" : "سجل دخولك"}
                   </button>
                 </div>
               </motion.div>
@@ -656,11 +634,11 @@ export default function HeaderNav() {
 
                   <div className="flex flex-col items-start">
                     <span className="font-semibold text-sm md:text-base">
-                     {!isArabic? ' Language':'الـلــغـة'}
+                      {!isArabic ? " Language" : "الـلــغـة"}
                     </span>
 
                     <span className="text-xs text-white/50">
-                     {!isArabic ?' Change app language':'تعير لغة التطبيق'}
+                      {!isArabic ? " Change app language" : "تعير لغة التطبيق"}
                     </span>
                   </div>
                 </div>
@@ -673,7 +651,7 @@ export default function HeaderNav() {
         border border-white/10
       "
                 >
-                 {!isArabic?'EN':'AR'}
+                  {!isArabic ? "EN" : "AR"}
                 </span>
               </button>
 
@@ -693,7 +671,7 @@ export default function HeaderNav() {
                 className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
                 href="/"
               >
-                {!isArabic?'Home':'الرئيسية'}
+                {!isArabic ? "Home" : "الرئيسية"}
                 <HomeIcon />
               </Link>
             </div>
@@ -702,7 +680,7 @@ export default function HeaderNav() {
                 className=" flex flex-row-reverse justify-between justify-items-center p-4 w-full"
                 href="/pages/about"
               >
-                {!isArabic?'About':'حول التطبيق'}
+                {!isArabic ? "About" : "حول التطبيق"}
                 <Info />
               </Link>
             </div>
@@ -714,7 +692,7 @@ export default function HeaderNav() {
                   setMenuOpen(false);
                 }}
               >
-               { !isArabic?'Ranks':'التصنيفات'}
+                {!isArabic ? "Ranks" : "التصنيفات"}
                 <Crown />
               </button>
             </div>
@@ -760,13 +738,13 @@ export default function HeaderNav() {
         rounded-full
       "
                 >
-                  {!isArabic?'Log out':'تسجيل الخروج'}
+                  {!isArabic ? "Log out" : "تسجيل الخروج"}
                 </motion.button>
               </div>
             )}
           </div>
           <div className="p-[0.2px] bg-purple-500/30"></div>
-        </motion.div>
+        </div>
         {/* MOBILE MENU OVERLAY */}
         {menuOpen && (
           <motion.div
@@ -933,7 +911,7 @@ export default function HeaderNav() {
           uppercase
         "
               >
-                {!isArabic?'Enter The Gaming World':'ادخل لعالم الألعاب'}
+                {!isArabic ? "Enter The Gaming World" : "ادخل لعالم الألعاب"}
               </motion.p>
 
               {/* Loader */}
@@ -971,7 +949,7 @@ export default function HeaderNav() {
             tracking-[0.4em]
           "
                 >
-                  {!isArabic?'LOADING':'جاري التحميل'}
+                  {!isArabic ? "LOADING" : "جاري التحميل"}
                 </motion.h2>
 
                 {/* Bars */}
@@ -1017,10 +995,10 @@ export default function HeaderNav() {
             onClick={() => setOpenRanks(false)}
           >
             <motion.div
-              initial={{ scale:isMobile?1: 0.9, opacity:isMobile?1: 0 }}
+              initial={{ scale: isMobile ? 1 : 0.9, opacity: isMobile ? 1 : 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale:isMobile?1: 0.9, opacity: 0 }}
-              transition={{ duration:isMobile?0: 0.2 }}
+              exit={{ scale: isMobile ? 1 : 0.9, opacity: 0 }}
+              transition={{ duration: isMobile ? 0 : 0.2 }}
               onClick={(e) => e.stopPropagation()}
               className="
           w-full max-w-4xl
@@ -1044,11 +1022,16 @@ export default function HeaderNav() {
               >
                 <div>
                   <h2 className="text-white text-xl md:text-2xl font-black">
-                    {isArabic?'نظام التصنيفات':'Rank System'}
+                    {isArabic ? "نظام التصنيفات" : "Rank System"}
                   </h2>
 
-                  <p dir={isArabic?'rtl':'ltr'} className="text-gray-400 text-sm">
-                    {isArabic?'شق طريقك عبر التصنيفات وكن أسطورة':'Progress through ranks and become a legend'}
+                  <p
+                    dir={isArabic ? "rtl" : "ltr"}
+                    className="text-gray-400 text-sm"
+                  >
+                    {isArabic
+                      ? "شق طريقك عبر التصنيفات وكن أسطورة"
+                      : "Progress through ranks and become a legend"}
                   </p>
                 </div>
 
@@ -1126,7 +1109,7 @@ export default function HeaderNav() {
                       shadow-lg
                     "
                         >
-                         {isArabic?'انت هنا':'YOU HERE'}
+                          {isArabic ? "انت هنا" : "YOU HERE"}
                         </div>
                       )}
 
@@ -1226,7 +1209,7 @@ export default function HeaderNav() {
                     "
                         >
                           <p className="text-gray-400 text-xs">
-                            {isArabic?'النقاط المطلوبة':'Required Points'}
+                            {isArabic ? "النقاط المطلوبة" : "Required Points"}
                           </p>
 
                           <p className="text-green-400 font-bold mt-1">

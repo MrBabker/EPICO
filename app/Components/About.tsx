@@ -96,7 +96,7 @@ export default function AboutPage() {
       {/*<HeaderNav />*/}
       {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
-        {true &&
+        {!isMobile &&
           particles.map((p, i) => (
             <motion.div
               key={i}
@@ -132,6 +132,10 @@ export default function AboutPage() {
             </motion.div>
           ))}
       </div>
+
+      {isMobile && (
+        <div className="fixed inset-0 pointer-events-none particles" />
+      )}
       <div className="relative z-10 max-w-7xl mx-auto py-10">
         {/* Hero */}
         <motion.div
@@ -197,10 +201,12 @@ export default function AboutPage() {
                     <Icon className="w-8 h-8 text-purple-300" />
                   </div>
 
-                  <h2 className="text-2xl font-bold mb-4">{isArabic?card.title.ar: card.title.en}</h2>
+                  <h2 className="text-2xl font-bold mb-4">
+                    {isArabic ? card.title.ar : card.title.en}
+                  </h2>
 
                   <p className="text-gray-300 leading-relaxed text-sm">
-                    {isArabic?card.text.ar: card.text.en}
+                    {isArabic ? card.text.ar : card.text.en}
                   </p>
                 </div>
               </motion.div>

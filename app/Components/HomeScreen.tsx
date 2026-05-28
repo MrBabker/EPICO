@@ -68,7 +68,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const GetTopPlayers = async () => {
-      setLoadingmess(isArabic?'تحميل بيانات الاعبين':"Loading Players...");
+      setLoadingmess(isArabic ? "تحميل بيانات الاعبين" : "Loading Players...");
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_HOST + "/api/Player/top",
@@ -76,7 +76,7 @@ export default function HomeScreen() {
 
         if (!res.ok) {
           setLoadingmess(res.text.toString());
-          throw new Error(isArabic?'جلب البيانات فشل !':"Failed to fetch");
+          throw new Error(isArabic ? "جلب البيانات فشل !" : "Failed to fetch");
         }
 
         setLoadingmess("");
@@ -85,7 +85,7 @@ export default function HomeScreen() {
         setPlayers(data);
       } catch (error) {
         console.log(error);
-        setLoadingmess(isArabic?'حدث خطأ ما !':"Something went wrong !!");
+        setLoadingmess(isArabic ? "حدث خطأ ما !" : "Something went wrong !!");
       }
     };
     GetTopPlayers();
@@ -108,7 +108,7 @@ export default function HomeScreen() {
       }
       {/* ✨ Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
-        {true &&
+        {!isMobile &&
           particles.map((p, i) => (
             <motion.div
               key={i}
@@ -144,7 +144,11 @@ export default function HomeScreen() {
             </motion.div>
           ))}
       </div>
+      {isMobile && (
+        <div className="fixed inset-0 pointer-events-none particles" />
+      )}
 
+    
       <div className="relative z-10">
         {/*<HeaderNav />*/}
 

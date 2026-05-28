@@ -136,7 +136,7 @@ const Login = () => {
       >
         {/* ✨ Particles */}
         <div className="fixed inset-0 pointer-events-none -z-0">
-          {true &&
+          {!isMobile &&
             particles.map((p, i) => (
               <motion.div
                 key={i}
@@ -172,6 +172,12 @@ const Login = () => {
               </motion.div>
             ))}
         </div>
+
+        {isMobile && (
+          <div className="fixed inset-0 pointer-events-none particles" />
+        )}
+
+      
         {/* CARD */}
         <motion.div
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
