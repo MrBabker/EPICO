@@ -64,7 +64,7 @@
   will-change: transform;
 }
 
-@media (max-width: 768px) {
+/*@media (max-width: 768px) {
   .particles::before,
   .particles::after {
     animation-duration: 80s;
@@ -73,7 +73,7 @@
   .animate-float {
     animation-duration: 4s;
   }
-}
+}*/
 .particles {
   position: fixed;
   inset: 0;

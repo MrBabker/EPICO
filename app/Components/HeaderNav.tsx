@@ -364,7 +364,7 @@ export default function HeaderNav() {
         overflow-hidden
         border border-white/10
         bg-[#111]
-        shadow-lg
+        md:shadow-lg
       "
                 >
                   <Image
