@@ -64,6 +64,12 @@
   will-change: transform;
 }
 
+@media (pointer: coarse) {
+  .animate-float {
+    animation: none !important;
+  }
+}
+
 /*@media (max-width: 768px) {
   .particles::before,
   .particles::after {

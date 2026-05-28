@@ -395,7 +395,7 @@ export default function HeaderNav() {
     h-screen w-[320px]
     bg-gradient-to-b from-[#251743] via-[#111827] to-[#0f172a]
     border-l border-purple-500/20
-    md:backdrop-blur-xl
+    md:ssbackdrop-blur-xl
     z-[1000]
     flex flex-col
 
