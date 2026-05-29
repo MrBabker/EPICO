@@ -4,28 +4,17 @@ import {
   Trophy,
   Star,
   LoaderCircle,
-  Gamepad,
-  Gamepad2Icon,
-  StarIcon,
-  StarHalf,
-  Stars,
-  StarOff,
-  ListStart,
-  MoonStar,
-  UserStar,
-  Pickaxe,
-  Snowflake,
-  LogIn,
   Flame,
-  SparkleIcon,
   Gamepad2,
+  StarIcon,
 } from "lucide-react";
+
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import HeaderNav from "./HeaderNav";
 import { useSelector } from "react-redux";
+
 import { RootState } from "../store";
 import { getRankByPoints, Player } from "../utils";
 
@@ -35,8 +24,11 @@ const useIsMobile = () => {
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
+
     check();
+
     window.addEventListener("resize", check);
+
     return () => window.removeEventListener("resize", check);
   }, []);
 
@@ -45,15 +37,17 @@ const useIsMobile = () => {
 
 export default function HomeScreen() {
   const isLogin = useSelector((state: RootState) => state.counter.islogin);
+
   const isArabic = useSelector((state: RootState) => state.counter.isArabic);
 
   const name = useSelector((state: RootState) => state.counter.Name);
 
   const isMobile = useIsMobile();
+
   const [players, setPlayers] = useState<Player[]>([]);
   const [loadingmess, setLoadingmess] = useState<string>("");
 
-  // ⚡ particles optimized
+  // ✨ particles optimized
   const particles = useMemo(() => {
     const count = isMobile ? 8 : 25;
 
@@ -68,74 +62,60 @@ export default function HomeScreen() {
 
   useEffect(() => {
     const GetTopPlayers = async () => {
-      setLoadingmess(isArabic ? "تحميل بيانات الاعبين" : "Loading Players...");
+      setLoadingmess(
+        isArabic ? "تحميل بيانات اللاعبين..." : "Loading Players...",
+      );
+
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_HOST + "/api/Player/top",
         );
 
         if (!res.ok) {
-          setLoadingmess(res.text.toString());
-          throw new Error(isArabic ? "جلب البيانات فشل !" : "Failed to fetch");
+          throw new Error(isArabic ? "فشل تحميل البيانات" : "Failed to fetch");
         }
 
-        setLoadingmess("");
         const data = await res.json();
 
         setPlayers(data);
+
+        setLoadingmess("");
       } catch (error) {
         console.log(error);
-        setLoadingmess(isArabic ? "حدث خطأ ما !" : "Something went wrong !!");
+
+        setLoadingmess(isArabic ? "حدث خطأ ما!" : "Something went wrong!");
       }
     };
+
     GetTopPlayers();
-  }, []);
+  }, [isArabic]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white bg-black pt-15">
+    <div className="relative min-h-screen overflow-hidden bg-black text-white pt-16">
       {/* 🌈 Background */}
-      {/*isMobile && (
-        <Image
-          src="/img/partt.gif"
-          fill
-          alt="Gaming Avatar"
-          priority
-          className="object-cover select-none  scalse-[10] scale-x-[1.2] opacity-20"
-        />
-      )*/}
-      {
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.25),transparent_60%)]" />
-      }
-      {/* ✨ Particles */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,0,255,0.22),transparent_60%)]" />
+
+      {/* ✨ Floating Particles */}
       <div className="fixed inset-0 pointer-events-none -z-0">
         {!isMobile &&
           particles.map((p, i) => (
             <motion.div
               key={i}
-              className="absolute bg-purple-400/0 rounded-full  md:sblur-sm"
+              className="absolute rounded-full"
               style={{
                 width: p.size,
                 height: p.size,
                 left: `${p.x}%`,
                 top: `${p.y}%`,
               }}
-              animate={
-                isMobile
-                  ? {
-                      x: [0, p.vx * 100, 0],
-                      y: [0, p.vy * 100, 0],
-                      opacity: [0.2, 0.5, 0.2],
-                      scale: [1 / 3, 1.6 / 3, 1 / 3],
-                    }
-                  : {
-                      x: [0, p.vx * 200, 0],
-                      y: [0, p.vy * 200, 0],
-                      opacity: [0.2, 0.5, 0.2],
-                      scale: [1 / 2.5, 1.6 / 2.5, 1 / 2.5],
-                    }
-              }
+              animate={{
+                x: [0, p.vx * 200, 0],
+                y: [0, p.vy * 200, 0],
+                opacity: [0.15, 0.5, 0.15],
+                scale: [0.4, 1, 0.4],
+              }}
               transition={{
-                duration: isMobile ? 4 : 6,
+                duration: 6,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -144,126 +124,362 @@ export default function HomeScreen() {
             </motion.div>
           ))}
       </div>
+
       {isMobile && (
         <div className="fixed inset-0 pointer-events-none particles" />
       )}
 
-    
       <div className="relative z-10">
-        {/*<HeaderNav />*/}
-
         {/* HERO */}
-        <section className="py-16 text-center px-4">
-          {/* 🎮 IMAGE */}
-          <div className="flex justify-center mb-10 h-60 items-center">
-            <motion.div
-              animate={isMobile ? { y: [0, -12, 0] } : { y: [0, -12, 0] }}
-              transition={
-                isMobile
-                  ? { duration: 2, repeat: Infinity }
-                  : { duration: 2, repeat: Infinity }
-              }
-            >
-              <Image
-                src={`/myFace/happy.gif`}
-                width={100}
-                height={100}
-                alt="Gaming Avatar"
-                className="w-60  md:w-60 h-60 md:h-60 rounded-full object-cover select-none"
-                priority
-              />
-            </motion.div>
-          </div>
-
-          {/* TITLE */}
-          <motion.h1
-            animate={{
-              opacity: [0, 0, 1],
-              y: isMobile ? 0 : [10, 0],
-            }}
-            transition={{ duration: 0.7 }}
-            className={
-              isArabic
-                ? "text-4xl md:text-6xl tracking-widest font-bold text-purple-400"
-                : "text-4xl md:text-6xl font-extrabold tracking-widest text-purple-400"
-            }
+        <section className="relative px-4 md:px-8 lg:px-12 py-10 md:py-20">
+          <div
+            className="
+              max-w-7xl
+              mx-auto
+              grid
+              grid-cols-1
+              lg:grid-cols-2
+              gap-16
+              items-center
+            "
           >
-            {isLogin ? (
-              <span>
-                {isArabic
-                  ? "مـرحـبـا بـك فـي عـالـم EPICO"
-                  : "WELCOME TO THE EPICO WORLD"}{" "}
-                <span className="text-white">{name}</span>
-              </span>
-            ) : isArabic ? (
-              "EPICO كـن واحـدا مـن عـالـم "
-            ) : (
-              "BE ONE OF THE EPICO WORLD"
-            )}
-          </motion.h1>
+            {/* LEFT */}
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+              {/* LOGO */}
+              <div className="relative flex flex-col items-center lg:items-start mb-8">
+                {/* Glow */}
+                <motion.div
+                  animate={{
+                    scale: [1, 1.12, 1],
+                    opacity: [0.2, 0.4, 0.2],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                  }}
+                  className="
+                    absolute
+                    top-0
+                  
+                    md:w-44 md:h-44
+                    rounded-full
+                    bg-purple-500/20
+                    md:blur-3xl
+                  "
+                />
 
-          <p className="mt-4 text-gray-400">
-            {isLogin
-              ? isArabic
-                ? "واصل كسب الخبرة وارتقِ في عالمي الخاص بالألعاب."
-                : "Keep earning XP and rise in my gaming universe."
-              : isArabic
-                ? "تنافس، اكسب الخبرة، واصعد بين الرتب في عالم الألعاب  ."
-                : "Compete, earn XP, and rise in my gaming universe."}
-          </p>
+                {/* Main Logo */}
+                <motion.div
+                  animate={{
+                    y: [0, -6, 0],
+                    rotate: [0, 2, -2, 0],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                  }}
+                  className="
+                    relative
+                    w-24 h-24
+                    md:w-28 md:h-28
+                    rounded-[30px]
+                    bg-gradient-to-br
+                    from-purple-500
+                    via-fuchsia-500
+                    to-orange-400
+                    flex items-center justify-center
+                    shadow-[0_0_40px_rgba(168,85,247,0.35)]
+                  "
+                >
+                  <Gamepad2 className="text-white w-12 h-12 md:w-14 md:h-14" />
 
-          {!isLogin && (
-            <div className=" p-5">
-              <motion.div
+                  {/* Rotating Ring */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{
+                      duration: 10,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                    className="
+                      absolute
+                      -inset-3
+                      rounded-[36px]
+                      border border-white/10
+                    "
+                  />
+                </motion.div>
+
+                {/* EPICO */}
+                <div className="flex gap-1 mt-6">
+                  {[
+                    ["E", "#9d64ff"],
+                    ["P", "#f458ff"],
+                    ["I", "#ff5858"],
+                    ["C", "#ffcb0f"],
+                    ["O", "#16ffa2"],
+                  ].map(([letter, color], i) => (
+                    <motion.span
+                      key={letter}
+                      animate={{
+                        y: [0, -4, 0],
+                      }}
+                      transition={{
+                        duration: 1.3,
+                        repeat: Infinity,
+                        delay: i * 0.1,
+                      }}
+                      style={{ color }}
+                      className="
+                        text-4xl
+                        sm:text-5xl
+                        md:text-6xl
+                        font-black
+                        tracking-wide
+                      "
+                    >
+                      {letter}
+                    </motion.span>
+                  ))}
+                </div>
+
+                {/* Subtitle */}
+                <motion.p
+                  animate={{
+                    opacity: [0.4, 1, 0.4],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                  }}
+                  className="
+                    text-gray-400
+                    mt-3
+                    text-xs
+                    md:text-sm
+                    tracking-[0.3em]
+                    uppercase
+                    text-center lg:text-left
+                  "
+                >
+                  {isArabic
+                    ? "ادخـل لـعـالـم الالـعـاب"
+                    : "Enter The Gaming World"}
+                </motion.p>
+              </div>
+
+              {/* TITLE */}
+              <motion.h1
                 animate={{
-                  y: [0, -4, 0], // 🎯 bounce هنا
+                  opacity: [0, 1],
+                  y: [20, 0],
                 }}
+                transition={{ duration: 0.7 }}
+                className={`
+  text-4xl
+  sm:text-5xl
+  lg:text-6xl
+  leading-tight
+  font-black
+  text-purple-400
+
+  inline-block
+  md:block
+
+  px-4
+  py-4
+
+  md:p-0
+
+  w-full
+  md:w-auto
+
+  rounded-3xl
+  md:rounded-none
+
+  border
+  border-purple-500/60
+  md:border-0
+
+  bg-gradient-to-r
+  md:bg-none
+
+  from-purple-500/10
+  to-pink-500/10
+
+  backdrop-blur-md
+  md:backdrop-blur-0
+
+  shadow-[0_0_30px_rgba(168,85,247,0.18)]
+  md:shadow-none
+`}
+              >
+                {isLogin ? (
+                  <>
+                    {isArabic ? "مـرحـبـا بـك فـي عـالـم" : "WELCOME TO"}
+
+                    <br />
+
+                    <span className="text-white">EPICO {name}</span>
+                  </>
+                ) : isArabic ? (
+                  "كـن واحـدا مـن عـالـم EPICO"
+                ) : (
+                  "BE ONE OF EPICO WORLD"
+                )}
+              </motion.h1>
+
+              {/* DESCRIPTION */}
+              <p
+                className="
+                  mt-6
+                  text-gray-400
+                  text-base
+                  md:text-lg
+                  leading-relaxed
+                  max-w-2xl
+                "
+              >
+                {isLogin
+                  ? isArabic
+                    ? "واصل كسب الخبرة وارتقِ في عالمي الخاص بالألعاب."
+                    : "Keep earning XP and rise in my gaming universe."
+                  : isArabic
+                    ? "تنافس، اكسب الخبرة، واصعد بين الرتب في عالم الألعاب."
+                    : "Compete, earn XP, and rise in my gaming universe."}
+              </p>
+
+              {/* BUTTON */}
+              {!isLogin && (
+                <div className="mt-8">
+                  <Link href="/pages/logorreg">
+                    <motion.div
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: "0px 0px 30px rgba(168,85,247,0.4)",
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className="
+                        inline-flex
+                        items-center
+                        gap-3
+                        px-8
+                        py-4
+                        rounded-2xl
+                        bg-gradient-to-r
+                        from-purple-600
+                        to-pink-600
+                        text-white
+                        font-bold
+                        text-lg
+                        cursor-pointer
+                      "
+                    >
+                      {isArabic ? "ابدأ الآن" : "Get Started"}
+
+                      <Flame size={24} />
+                    </motion.div>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT IMAGE */}
+            <div className="flex justify-center">
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
                 transition={{
-                  duration: 3.5,
+                  duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-                className="inline-block"
+                className="relative"
               >
-                <Link href="/pages/logorreg">
-                  {" "}
-                  <motion.div
-                    whileHover={{
-                      scale: 1.08,
-                      boxShadow: "0px 0px 20px rgba(168,85,247,0.7)",
-                    }}
-                    whileTap={{
-                      scale: 0.92,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 15,
-                    }}
-                    className="cursor-pointer px-10 py-5 bg-purple-600 text-white text-2xl font-bold  rounded-full"
-                  >
-                    <p className="select-none flex items-center justify-center gap-2">
-                      {isArabic ? "ابــدأ الآن" : "Get Started"}
-                      <Flame size={30} />
-                    </p>{" "}
-                  </motion.div>
-                </Link>
+                {/* glow */}
+                <div
+                  className="
+                    absolute
+                    inset-0
+                    rounded-full
+                    bg-purple-500/30
+                    blur-3xl
+                    scale-110
+                  "
+                />
+
+                <Image
+                  src="/myFace/happy.gif"
+                  width={320}
+                  height={320}
+                  alt="Gaming Avatar"
+                  priority
+                  className="
+                    relative
+                    z-10
+                    w-52
+                    h-52
+                    sm:w-64
+                    sm:h-64
+                    lg:w-80
+                    lg:h-80
+                    rounded-full
+                    object-cover
+                    border
+                    border-purple-500/30
+                    shadow-2xl
+                    select-none
+                  "
+                />
               </motion.div>
             </div>
-          )}
+          </div>
         </section>
 
         {/* LEADERBOARD */}
-        <section className="w-full flex justify-center">
-          <div className="w-full max-w-2xl">
-            <div className="flex items-center gap-2 mb-6 text-2xl font-bold text-yellow-400 justify-center">
-              <Trophy />
-              {isArabic ? "أقـوى 10 لاعـبـيـن" : "Top 10 Players"}
+        <section className="w-full px-4 md:px-8 pb-16">
+          <div className="max-w-5xl mx-auto">
+            {/* Title */}
+            <div className="flex items-center justify-center gap-3 mb-8">
+              <div
+                className="
+                  flex
+                  items-center
+                  gap-2
+                  px-6
+                  py-3
+                  rounded-2xl
+                  bg-white/[0.05]
+                  border
+                  border-white/10
+                  ssbackdrop-blur-md
+                "
+              >
+                <Trophy className="text-yellow-400" />
+
+                <span className="text-xl md:text-2xl font-bold text-yellow-400">
+                  {isArabic ? "أقـوى 10 لاعـبـيـن" : "Top 10 Players"}
+                </span>
+              </div>
             </div>
 
+            {/* Loading */}
             {loadingmess.trim().length > 0 && (
-              <div className="flex justify-center mt-8">
-                <div className="flex items-center gap-4 bg-zinc-900/80 border border-zinc-700 px-8 py-5 rounded-3xl shadow-2xl backdrop-blur-md">
+              <div className="flex justify-center mb-8">
+                <div
+                  className="
+                    flex
+                    items-center
+                    gap-4
+                    bg-zinc-900/80
+                    border
+                    border-zinc-700
+                    px-8
+                    py-5
+                    rounded-3xl
+                    shadow-2xl
+                    ssbackdrop-blur-md
+                  "
+                >
                   <LoaderCircle className="w-8 h-8 text-green-400 animate-spin" />
 
                   <p className="text-white text-lg font-semibold tracking-wide">
@@ -272,102 +488,130 @@ export default function HomeScreen() {
                 </div>
               </div>
             )}
-            <div className="grid gap-3 mx-5">
+
+            {/* Players */}
+            <div className="grid gap-4">
               {players.map((p, i) => (
                 <motion.div
                   key={i}
-                  animate={{ opacity: [0, 0, 1], y: [-10, -10, 0] }}
-                  transition={{ delay: i * 0.05 }}
+                  animate={{
+                    opacity: [0, 1],
+                    y: [15, 0],
+                  }}
+                  transition={{
+                    delay: i * 0.05,
+                  }}
                 >
                   <div
                     className={`
-    relative overflow-hidden
-    bg-white/[0.045]
-    border
-    rounded-3xl
-    transition-all duration-300
-    hover:scale-[1.015]
-    active:scale-[0.99]
+                      relative
+                      overflow-hidden
+                      rounded-3xl
+                      border
+                      transition-all
+                      duration-300
+                      hover:scale-[1.015]
 
-    ${
-      p.name === name && isLogin
-        ? `
-          border-purple-500/60
-          shadow-[0_0_25px_rgba(168,85,247,0.18)]
-          bg-gradient-to-r
-          from-purple-500/10
-          to-pink-500/10
-        `
-        : `
-          border-white/10
-          hover:border-white/20
-        `
-    }
-  `}
+                      ${
+                        p.name === name && isLogin
+                          ? `
+                            border-purple-500/60
+                            bg-gradient-to-r
+                            from-purple-500/10
+                            to-pink-500/10
+                            shadow-[0_0_30px_rgba(168,85,247,0.18)]
+                          `
+                          : `
+                            border-white/10
+                            bg-white/[0.04]
+                            hover:border-white/20
+                          `
+                      }
+                    `}
                   >
-                    {/* Small glow for current player */}
+                    {/* Current Player Glow */}
                     {p.name === name && isLogin && (
                       <div
                         className="
-        absolute inset-0
-        bg-gradient-to-r
-        from-purple-500/5
-        to-pink-500/5
-        pointer-events-none
-      "
+                          absolute
+                          inset-0
+                          bg-gradient-to-r
+                          from-purple-500/5
+                          to-pink-500/5
+                          pointer-events-none
+                        "
                       />
                     )}
 
-                    <div className="relative flex items-center justify-between p-4">
-                      <div className="flex items-center gap-3 min-w-0">
+                    <div className="relative flex items-center justify-between p-4 md:p-5">
+                      {/* LEFT */}
+                      <div className="flex items-center gap-4 min-w-0">
                         {/* Rank */}
                         <div
                           className={`
-          flex items-center justify-center
-          w-8 h-8 rounded-xl
-          text-sm font-bold
-          ${
-            i < 3
-              ? "bg-yellow-400/15 text-yellow-300"
-              : "bg-white/5 text-gray-300"
-          }
-        `}
+                            flex
+                            items-center
+                            justify-center
+                            w-10 h-10
+                            rounded-2xl
+                            font-bold
+
+                            ${
+                              i < 3
+                                ? "bg-yellow-400/15 text-yellow-300"
+                                : "bg-white/5 text-gray-300"
+                            }
+                          `}
                         >
                           #{i + 1}
                         </div>
 
                         {/* Player */}
                         <div className="min-w-0">
-                          <div className=" flex flex-row gap-2 items-center">
+                          <div className="flex items-center gap-3">
                             <Image
                               src={getRankByPoints(p.points).name.path}
                               alt={getRankByPoints(p.points).name.en}
-                              width={30}
-                              height={30}
+                              width={36}
+                              height={36}
+                              className="select-none"
                             />
+
                             <p
                               className={`
-            font-bold truncate
-            ${p.name === name && isLogin ? "text-white" : "text-gray-200"}
-          `}
+                                truncate
+                                font-bold
+                                text-base
+                                md:text-lg
+
+                                ${
+                                  p.name === name && isLogin
+                                    ? "text-white"
+                                    : "text-gray-200"
+                                }
+                              `}
                             >
                               {p.name}
                             </p>
                           </div>
 
                           {p.name === name && isLogin && (
-                            <span className="text-[11px] text-purple-300 font-medium">
+                            <span className="text-xs text-purple-300 font-medium">
                               YOU
                             </span>
                           )}
                         </div>
                       </div>
 
-                      {/* Points */}
-                      <div className="flex items-center gap-1 font-bold text-green-400 shrink-0">
-                        <Star size={15} />
-                        <span>{p.points}</span>
-                        <span className="hidden sm:inline text-green-300/70">
+                      {/* RIGHT */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Star size={18} className="text-green-400" />
+
+                        <span className="font-bold text-green-400 text-lg">
+                          {p.points}
+                        </span>
+
+                        <span className="hidden sm:inline text-green-300/70 text-sm">
                           EP
                         </span>
                       </div>
@@ -380,11 +624,23 @@ export default function HomeScreen() {
         </section>
 
         {/* FOOTER */}
-        <footer className="py-10 text-sm text-center gap-2 text-gray-500 flex flex-row justify-center">
+        <footer
+          className="
+            mt-10
+            py-8
+            text-sm
+            text-gray-500
+            flex
+            items-center
+            justify-center
+            gap-2
+          "
+        >
           {isArabic
             ? "صُمم خصيصًا لعالمي الخاص بالألعاب"
             : "Built for my gaming universe"}
-          <Gamepad2 />
+
+          <Gamepad2 size={18} />
         </footer>
       </div>
     </div>

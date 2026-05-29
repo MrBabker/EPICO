@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { motion } from "framer-motion";
 import { Gamepad2 } from "lucide-react";
+import Link from "next/link";
 
 export default function PrivacyPage() {
   const isArabic = useSelector((state: RootState) => state.counter.isArabic);
@@ -61,7 +62,7 @@ export default function PrivacyPage() {
       ? "يمكن للمستخدمين طلب حذف الحساب أو إزالة البيانات الشخصية في أي وقت عبر التواصل مع الدعم."
       : "Users may request account deletion or removal of personal data at any time by contacting support.",
 
-    supportButton: isArabic ? "التواصل مع الدعم" : "Contact Support",
+    supportButton: isArabic ? "حذف حسابي" : "Delete my account",
 
     securityTitle: isArabic ? "الأمان" : "Security",
 
@@ -336,27 +337,28 @@ export default function PrivacyPage() {
                 {content.deleteText}
               </p>
 
-              <a
-                href="mailto:smilemedo@outlook.com?subject=EPICO Support"
-                className="
+              <Link href="/pages/accdelete">
+                <span
+                  className="
     mt-7
     inline-flex
     items-center
     justify-center
     w-full sm:w-auto
     px-7 py-4
-    rounded-2xl
-    bg-gradient-to-r from-purple-500 to-fuchsia-500
+    rounded-[20px]
+    bg-gradient-to-r from-[#ff4d4d] to-[#f00]
     font-bold
     text-sm md:text-base
-    shadow-[0_0_40px_rgba(168,85,247,0.45)]
+    shadow-[0_0_40px_rgba(168,0,0,0.45)]
     hover:scale-[1.03]
     active:scale-95
     transition
   "
-              >
-                {content.supportButton}
-              </a>
+                >
+                  {content.supportButton}
+                </span>
+              </Link>
             </section>
 
             {/* SECURITY */}

@@ -15,6 +15,8 @@ import {
   Crown,
   Languages,
   ShieldCheck,
+  LogOut,
+  Trash2,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
@@ -705,11 +707,9 @@ export default function HeaderNav() {
                   href="/pages/privacy"
                 >
                   {!isArabic ? "Privacy Policy" : "سياسة الخصوصية"}
-                  <ShieldCheck  />
+                  <ShieldCheck />
                 </Link>
               </div>
-             
-             
             </div>
             {/*Array.from({ length: 20 }).map((_, i) => (
             <div
@@ -725,7 +725,7 @@ export default function HeaderNav() {
               </Link>
             </div>
           ))*/}
-
+            <div className="p-[0.2px] bg-purple-500/30"></div>
             {loadingmess.trim().length > 0 && (
               <div className="flex justify-center mt-8">
                 <div className="flex items-center gap-4 bg-zinc-900/80 border border-zinc-700 px-8 py-5 rounded-3xl shadow-2xl backdrop-blur-md">
@@ -742,18 +742,76 @@ export default function HeaderNav() {
                 <motion.button
                   onClick={() => logout()}
                   whileTap={{ scale: 0.92 }}
+                  whileHover={{ scale: 1.06 }}
                   className="
-              w-full
-        mt-4
-        px-5 py-3
-        bg-purple-600
-        text-white
-        font-bold
-        rounded-full
-      "
+    w-full
+    mt-4
+    px-5 py-3
+
+    bg-gradient-to-r
+    from-purple-600
+    to-fuchsia-600
+
+    text-white
+    font-bold
+
+    rounded-[20px]
+
+    flex
+    items-center
+    justify-center
+    gap-2
+
+    shadow-lg
+    shadow-purple-500/20
+
+    transition-all
+    duration-300
+
+    cursor-pointer
+  "
                 >
+                  <LogOut className="w-5 h-5" />
+
                   {!isArabic ? "Log out" : "تسجيل الخروج"}
                 </motion.button>
+                <Link href="/pages/accdelete">
+                  <motion.button
+                    whileTap={{ scale: 0.92 }}
+                    whileHover={{ scale: 1.06 }}
+                    className="
+    w-full
+    mt-4
+    px-5 py-3
+
+    bg-gradient-to-r
+    from-red-600
+    to-rose-600
+
+    text-white
+    font-bold
+
+    rounded-[20px]
+
+    flex
+    items-center
+    justify-center
+    gap-2
+
+    shadow-lg
+    shadow-red-500/20
+
+    transition-all
+    duration-300
+
+    cursor-pointer
+  "
+                  >
+                    <Trash2 className="w-5 h-5" />
+
+                    {!isArabic ? "Delete account" : "حذف الحساب"}
+                  </motion.button>
+                </Link>
               </div>
             )}
           </div>
