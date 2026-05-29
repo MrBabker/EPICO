@@ -147,69 +147,6 @@ export default function HomeScreen() {
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
               {/* LOGO */}
               <div className="relative flex flex-col items-center lg:items-start mb-8">
-                {/* Glow */}
-                <motion.div
-                  animate={{
-                    scale: [1, 1.12, 1],
-                    opacity: [0.2, 0.4, 0.2],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                  }}
-                  className="
-                    absolute
-                    top-0
-                  
-                    md:w-44 md:h-44
-                    rounded-full
-                    bg-purple-500/20
-                    md:blur-3xl
-                  "
-                />
-
-                {/* Main Logo */}
-                <motion.div
-                  animate={{
-                    y: [0, -6, 0],
-                    rotate: [0, 2, -2, 0],
-                  }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                  }}
-                  className="
-                    relative
-                    w-24 h-24
-                    md:w-28 md:h-28
-                    rounded-[30px]
-                    bg-gradient-to-br
-                    from-purple-500
-                    via-fuchsia-500
-                    to-orange-400
-                    flex items-center justify-center
-                    shadow-[0_0_40px_rgba(168,85,247,0.35)]
-                  "
-                >
-                  <Gamepad2 className="text-white w-12 h-12 md:w-14 md:h-14" />
-
-                  {/* Rotating Ring */}
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 10,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="
-                      absolute
-                      -inset-3
-                      rounded-[36px]
-                      border border-white/10
-                    "
-                  />
-                </motion.div>
-
                 {/* EPICO */}
                 <div className="flex gap-1 mt-6">
                   {[
@@ -242,34 +179,59 @@ export default function HomeScreen() {
                     </motion.span>
                   ))}
                 </div>
-
-                {/* Subtitle */}
-                <motion.p
-                  animate={{
-                    opacity: [0.4, 1, 0.4],
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                  }}
-                  className="
-                    text-gray-400
-                    mt-3
-                    text-xs
-                    md:text-sm
-                    tracking-[0.3em]
-                    uppercase
-                    text-center lg:text-left
-                  "
-                >
-                  {isArabic
-                    ? "ادخـل لـعـالـم الالـعـاب"
-                    : "Enter The Gaming World"}
-                </motion.p>
               </div>
+              {/* RIGHT IMAGE */}
+              {isMobile && (
+                <div className="flex justify-center">
+                  <motion.div
+                    animate={{ y: [0, -12, 0] }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="relative"
+                  >
+                    {/* glow */}
+                    <div
+                      className="
+                    absolute
+                    inset-0
+                    rounded-full
+                    bg-purple-500/30
+                    blur-3xl
+                    scale-110
+                  "
+                    />
 
+                    <Image
+                      src="/myFace/happy.gif"
+                      width={320}
+                      height={320}
+                      alt="Gaming Avatar"
+                      priority
+                      className="
+                    relative
+                    z-10
+                    w-52
+                    h-52
+                    sm:w-64
+                    sm:h-64
+                    lg:w-80
+                    lg:h-80
+                    rounded-full
+                    object-cover
+                    border
+                    border-purple-500/30
+                    shadow-2xl
+                    select-none
+                  "
+                    />
+                  </motion.div>
+                </div>
+              )}
               {/* TITLE */}
-              <motion.h1
+              <motion.div
                 animate={{
                   opacity: [0, 1],
                   y: [20, 0],
@@ -280,7 +242,7 @@ export default function HomeScreen() {
   sm:text-5xl
   lg:text-6xl
   leading-tight
-  font-black
+  font-bold
   text-purple-400
 
   inline-block
@@ -297,20 +259,6 @@ export default function HomeScreen() {
   rounded-3xl
   md:rounded-none
 
-  border
-  border-purple-500/60
-  md:border-0
-
-  bg-gradient-to-r
-  md:bg-none
-
-  from-purple-500/10
-  to-pink-500/10
-
-
-
-  shadow-[0_0_30px_rgba(168,85,247,0.18)]
-  md:shadow-none
 `}
               >
                 {isLogin ? (
@@ -326,7 +274,7 @@ export default function HomeScreen() {
                 ) : (
                   "BE ONE OF EPICO WORLD"
                 )}
-              </motion.h1>
+              </motion.div>
 
               {/* DESCRIPTION */}
               <p
@@ -350,7 +298,15 @@ export default function HomeScreen() {
 
               {/* BUTTON */}
               {!isLogin && (
-                <div className="mt-8">
+                <motion.div
+                  className="mt-8"
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
                   <Link href="/pages/logorreg">
                     <motion.div
                       whileHover={{
@@ -362,9 +318,9 @@ export default function HomeScreen() {
                         inline-flex
                         items-center
                         gap-3
-                        px-8
-                        py-4
-                        rounded-2xl
+                        px-12
+                        py-6
+                        rounded-[25px]
                         bg-gradient-to-r
                         from-purple-600
                         to-pink-600
@@ -379,24 +335,25 @@ export default function HomeScreen() {
                       <Flame size={24} />
                     </motion.div>
                   </Link>
-                </div>
+                </motion.div>
               )}
             </div>
 
             {/* RIGHT IMAGE */}
-            <div className="flex justify-center">
-              <motion.div
-                animate={{ y: [0, -12, 0] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="relative"
-              >
-                {/* glow */}
-                <div
-                  className="
+            {!isMobile && (
+              <div className="flex justify-center">
+                <motion.div
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="relative"
+                >
+                  {/* glow */}
+                  <div
+                    className="
                     absolute
                     inset-0
                     rounded-full
@@ -404,15 +361,15 @@ export default function HomeScreen() {
                     blur-3xl
                     scale-110
                   "
-                />
+                  />
 
-                <Image
-                  src="/myFace/happy.gif"
-                  width={320}
-                  height={320}
-                  alt="Gaming Avatar"
-                  priority
-                  className="
+                  <Image
+                    src="/myFace/happy.gif"
+                    width={320}
+                    height={320}
+                    alt="Gaming Avatar"
+                    priority
+                    className="
                     relative
                     z-10
                     w-52
@@ -428,9 +385,10 @@ export default function HomeScreen() {
                     shadow-2xl
                     select-none
                   "
-                />
-              </motion.div>
-            </div>
+                  />
+                </motion.div>
+              </div>
+            )}
           </div>
         </section>
 
