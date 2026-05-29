@@ -191,7 +191,7 @@ export default function HomeScreen() {
                     inset-0
                     rounded-full
                     bg-purple-500/30
-                    blur-3xl
+                    blur-lg
                     scale-110
                   "
                     />
@@ -215,7 +215,7 @@ export default function HomeScreen() {
                     object-cover
                     border
                     border-purple-500/30
-                    shadow-2xl
+                    ssshadow-2xl
                     select-none
                   "
                     />
@@ -425,7 +425,7 @@ export default function HomeScreen() {
                     px-8
                     py-5
                     rounded-3xl
-                    shadow-2xl
+                    ssshadow-2xl
                     ssbackdrop-blur-md
                   "
                 >

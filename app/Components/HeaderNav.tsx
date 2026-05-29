@@ -889,8 +889,8 @@ export default function HeaderNav() {
           absolute top-0
           w-60 h-60
           rounded-full
-          bg-purple-500/20
-          blur-3xl
+          md:bg-purple-500/20
+          md:blur-3xl
         "
               />
 
