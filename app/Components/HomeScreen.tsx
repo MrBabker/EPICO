@@ -307,8 +307,7 @@ export default function HomeScreen() {
   from-purple-500/10
   to-pink-500/10
 
-  backdrop-blur-md
-  md:backdrop-blur-0
+
 
   shadow-[0_0_30px_rgba(168,85,247,0.18)]
   md:shadow-none
