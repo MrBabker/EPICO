@@ -156,16 +156,8 @@ export default function HomeScreen() {
                     ["C", "#ffcb0f"],
                     ["O", "#16ffa2"],
                   ].map(([letter, color], i) => (
-                    <motion.span
+                    <span
                       key={letter}
-                      animate={{
-                        y: [0, -4, 0],
-                      }}
-                      transition={{
-                        duration: 1.3,
-                        repeat: Infinity,
-                        delay: i * 0.1,
-                      }}
                       style={{ color }}
                       className="
                         text-4xl
@@ -176,7 +168,7 @@ export default function HomeScreen() {
                       "
                     >
                       {letter}
-                    </motion.span>
+                    </span>
                   ))}
                 </div>
               </div>
