@@ -762,8 +762,8 @@ export default function HeaderNav() {
     justify-center
     gap-2
 
-    shadow-lg
-    shadow-purple-500/20
+    md:shadow-lg
+    md:shadow-purple-500/20
 
     transition-all
     duration-300
@@ -798,8 +798,8 @@ export default function HeaderNav() {
     justify-center
     gap-2
 
-    shadow-lg
-    shadow-red-500/20
+    md:shadow-lg
+    md:shadow-red-500/20
 
     transition-all
     duration-300

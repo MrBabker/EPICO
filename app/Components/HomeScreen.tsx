@@ -184,18 +184,52 @@ export default function HomeScreen() {
                     }}
                     className="relative"
                   >
+                      <div
+                      className="
+                    absolute
+                    inset-0
+                    rounded-full
+                    bg-purple-500/5
+                    ssblur-sm
+                    scale-140
+                  "
+                    />
                     {/* glow */}
                     <div
                       className="
                     absolute
                     inset-0
                     rounded-full
-                    bg-purple-500/30
-                    blur-lg
+                    bg-purple-500/5
+                    ssblur-sm
+                    scale-120
+                  "
+                    />
+                    {/* glow */}
+                    <div
+                      className="
+                    absolute
+                    inset-0
+                    rounded-full
+                    bg-purple-500/10
+                    ssblur-sm
                     scale-110
                   "
                     />
-
+                    {/* glow */}
+                    <div
+                      className="
+                    absolute
+                    inset-0
+                   border
+                    border-1
+                    border-[#8306ff9f]
+                    rounded-full
+                    bg-purple-500/10
+                    ssblur-sm
+                    scale-110
+                  "
+                    />
                     <Image
                       src="/myFace/happy.gif"
                       width={320}
@@ -213,9 +247,10 @@ export default function HomeScreen() {
                     lg:h-80
                     rounded-full
                     object-cover
-                    border
-                    border-purple-500/30
+                    ssborder
+                    ssborder-purple-500/30
                     ssshadow-2xl
+                   
                     select-none
                   "
                     />

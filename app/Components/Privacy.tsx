@@ -82,7 +82,7 @@ export default function PrivacyPage() {
         overflow-hidden
         bg-[#090014]
         text-white
-        pt-15
+        pt-15 
       "
     >
       {/* BACKGROUND */}
@@ -97,7 +97,7 @@ export default function PrivacyPage() {
         "
       />
 
-      <div
+      <div                                                                                                                                                                                                
         className="
           relative z-10
           max-w-6xl
@@ -350,7 +350,7 @@ export default function PrivacyPage() {
     bg-gradient-to-r from-[#ff4d4d] to-[#f00]
     font-bold
     text-sm md:text-base
-    shadow-[0_0_40px_rgba(168,0,0,0.45)]
+    md:shadow-[0_0_40px_rgba(168,0,0,0.45)]
     hover:scale-[1.03]
     active:scale-95
     transition

@@ -226,7 +226,7 @@ const AccDelete = () => {
               to-fuchsia-500
               font-bold
               text-sm md:text-base
-              shadow-[0_0_40px_rgba(168,85,247,0.45)]
+              ssshadow-[0_0_40px_rgba(168,85,247,0.45)]
               hover:scale-[1.02]
               active:scale-95
               transition
