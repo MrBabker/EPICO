@@ -105,6 +105,7 @@ const AccDelete = () => {
               text-sm md:text-lg
               max-w-2xl
               mx-auto
+              px-5
             "
           >
             {content.description}

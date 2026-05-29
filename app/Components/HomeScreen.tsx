@@ -184,16 +184,8 @@ export default function HomeScreen() {
                     }}
                     className="relative"
                   >
-                      <div
-                      className="
-                    absolute
-                    inset-0
-                    rounded-full
-                    bg-purple-500/5
-                    ssblur-sm
-                    scale-140
-                  "
-                    />
+                    
+                     
                     {/* glow */}
                     <div
                       className="
@@ -202,7 +194,7 @@ export default function HomeScreen() {
                     rounded-full
                     bg-purple-500/5
                     ssblur-sm
-                    scale-120
+                    scale-155
                   "
                     />
                     {/* glow */}
@@ -213,7 +205,7 @@ export default function HomeScreen() {
                     rounded-full
                     bg-purple-500/10
                     ssblur-sm
-                    scale-110
+                    scale-130
                   "
                     />
                     {/* glow */}
