@@ -17,7 +17,7 @@ export interface CounterState {
 const initialState: CounterState = {
   value: 0,
   initialEnter:false,
-  isArabic:true,
+  isArabic:false,
   islogin: false,
   Name: '',
   Email: '',
