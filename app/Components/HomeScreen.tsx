@@ -184,8 +184,6 @@ export default function HomeScreen() {
                     }}
                     className="relative"
                   >
-                    
-                     
                     {/* glow */}
                     <div
                       className="
@@ -316,24 +314,25 @@ export default function HomeScreen() {
               </p>
 
               {/* BUTTON */}
-              {!isLogin && (
-                <motion.div
-                  className="mt-8"
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <Link href="/pages/logorreg">
-                    <motion.div
-                      whileHover={{
-                        scale: 1.05,
-                        boxShadow: "0px 0px 30px rgba(168,85,247,0.4)",
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                      className="
+              {!isLogin &&
+                (!isMobile ? (
+                  <motion.div
+                    className="mt-8"
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <Link href="/pages/logorreg">
+                      <motion.div
+                        whileHover={{
+                          scale: 1.05,
+                          boxShadow: "0px 0px 30px rgba(168,85,247,0.4)",
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        className="
                         inline-flex
                         items-center
                         gap-3
@@ -348,14 +347,44 @@ export default function HomeScreen() {
                         text-lg
                         cursor-pointer
                       "
-                    >
-                      {isArabic ? "ابدأ الآن" : "Get Started"}
+                      >
+                        {isArabic ? "ابدأ الآن" : "Get Started"}
 
-                      <Flame size={24} />
-                    </motion.div>
-                  </Link>
-                </motion.div>
-              )}
+                        <Flame size={24} />
+                      </motion.div>
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <div className="mt-8">
+                    <Link href="/pages/logorreg">
+                      <div
+                        className="
+                        inline-flex
+                        items-center
+                        gap-3
+                        px-12
+                        py-6
+                        rounded-[25px]
+                        bg-gradient-to-r
+                        from-purple-600
+                        to-pink-600
+                        text-white
+                        font-bold
+                        text-lg
+                        cursor-pointer
+                        hover:px-13
+                        hover:py-7
+                        hover:shadow-[0_0_40px_rgba(168,0,0,0.45)]
+                        duration-500
+                      "
+                      >
+                        {isArabic ? "ابدأ الآن" : "Get Started"}
+
+                        <Flame size={24} />
+                      </div>
+                    </Link>
+                  </div>
+                ))}
             </div>
 
             {/* RIGHT IMAGE */}
