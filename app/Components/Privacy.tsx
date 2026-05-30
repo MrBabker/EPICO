@@ -3,7 +3,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { motion } from "framer-motion";
-import { Gamepad2 } from "lucide-react";
+import { Gamepad2, Mail } from "lucide-react";
 import Link from "next/link";
 
 export default function PrivacyPage() {
@@ -31,7 +31,7 @@ export default function PrivacyPage() {
           "بيانات تسجيل الدخول",
           "تقدم اللاعب والترتيب",
           "إحصائيات الاستخدام الأساسية",
-         /* "معلومات الجهاز والمتصفح",*/
+          /* "معلومات الجهاز والمتصفح",*/
         ]
       : [
           "Username and account information",
@@ -71,6 +71,31 @@ export default function PrivacyPage() {
       : "We take reasonable measures to protect user information and keep platform data secure from unauthorized access.",
 
     footer: isArabic ? "جميع الحقوق محفوظة" : "All rights reserved.",
+    childSafetyTitle: isArabic
+      ? "معايير حماية الأطفال"
+      : "Child Safety Standards",
+
+    childSafetyText: isArabic
+      ? "تلتزم EPICO بتوفير بيئة آمنة لجميع المستخدمين وتتبنى سياسة عدم التسامح مطلقًا مع أي شكل من أشكال الاستغلال أو الإساءة للأطفال. لا تسمح المنصة بأي محتوى أو سلوك ينتهك سلامة الأطفال أو يعرضهم للخطر."
+      : "EPICO is committed to providing a safe environment for all users and maintains a zero-tolerance policy toward child sexual abuse and exploitation. The platform does not allow any content or behavior that endangers or exploits minors.",
+
+    childSafetyItems: isArabic
+      ? [
+          "اتخاذ الإجراءات المناسبة ضد الحسابات المخالفة.",
+          "توفير وسيلة للإبلاغ عن المخالفات أو المخاوف الأمنية.",
+          "التعاون مع الجهات المختصة عند الحاجة وفقًا للقوانين المعمول بها.",
+          "مراجعة البلاغات واتخاذ الإجراءات اللازمة لحماية المستخدمين.",
+        ]
+      : [
+          "Take appropriate action against violating accounts.",
+          "Provide a way to report violations or safety concerns.",
+          "Cooperate with relevant authorities when legally required.",
+          "Review reports and take necessary action to protect users.",
+        ],
+
+    childSafetyContact: isArabic
+      ? "للتبليغ عن أي مخاوف تتعلق بسلامة الأطفال:"
+      : "For child safety concerns or reports:",
   };
 
   return (
@@ -97,7 +122,7 @@ export default function PrivacyPage() {
         "
       />
 
-      <div                                                                                                                                                                                                
+      <div
         className="
           relative z-10
           max-w-6xl
@@ -383,6 +408,87 @@ export default function PrivacyPage() {
               >
                 {content.securityText}
               </p>
+            </section>
+            {/* CHILD SAFETY */}
+            <section>
+              <h2
+                className="
+      text-2xl md:text-4xl
+      font-bold
+      text-purple-300
+      mb-5 md:mb-7
+    "
+              >
+                {content.childSafetyTitle}
+              </h2>
+
+              <p
+                className="
+      text-gray-300
+      leading-8 md:leading-10
+      text-[15px] md:text-[18px]
+      mb-6
+    "
+              >
+                {content.childSafetyText}
+              </p>
+
+              <div className="space-y-3">
+                {content.childSafetyItems.map((item, i) => (
+                  <div
+                    key={i}
+                    className="
+          flex items-start gap-3
+          rounded-2xl
+          border border-white/10
+          bg-white/[0.03]
+          p-4
+        "
+                  >
+                    <span className="text-green-400 mt-1">✓</span>
+                    <span className="text-gray-200">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex  items-center gap-3 flex-wrap mt-5">
+                <p
+                  className="
+      text-purple-300
+      font-medium
+    "
+                >
+                  {content.childSafetyContact}
+                </p>
+
+                <a
+                  href={`mailto:smilemedo@outlook.com?subject=${
+                    isArabic
+                      ? "تبليغ عن مخاوف تتعلق بسلامة الأطفال EPICO"
+                      : "EPICO Reporting concerns related to child safety"
+                  }`}
+                  className="
+      inline-flex
+      items-center
+      justify-center
+      w-full
+      gap-3
+      px-5 py-2
+      rounded-[10px]
+      bg-gradient-to-r
+      from-[#5500ff]
+      to-[#8400ff]
+      font-bold
+      text-sm md:text-base
+      md:shadow-[0_0_40px_rgba(60,85,247,0.45)]
+      hover:scale-[1.02]
+      active:scale-95
+      transition
+    "
+                >
+                  <Mail className="w-5 h-5" />
+                  smilemedo@outlook.com
+                </a>
+              </div>
             </section>
           </div>
         </div>
