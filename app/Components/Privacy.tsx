@@ -31,7 +31,7 @@ export default function PrivacyPage() {
           "بيانات تسجيل الدخول",
           "تقدم اللاعب والترتيب",
           "إحصائيات الاستخدام الأساسية",
-          "معلومات الجهاز والمتصفح",
+         /* "معلومات الجهاز والمتصفح",*/
         ]
       : [
           "Username and account information",
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
           "Login session data",
           "Game progress and rankings",
           "Basic analytics and app usage",
-          "Device and browser information",
+          /*"Device and browser information",*/
         ],
 
     usageTitle: isArabic ? "كيف نستخدم بياناتك" : "How We Use Your Data",
